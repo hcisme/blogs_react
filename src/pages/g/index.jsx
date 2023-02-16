@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { LoginFormPage } from '@ant-design/pro-components';
 import { Alert, message, Tabs } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Login from './login';
 import Register from './register';
@@ -17,14 +16,16 @@ const Index = () => {
 
   const login = async (values) => {
     setErrorText('');
-    const {
-      data: { code, token, userInfo, message: info }
-    } = await userLogin(values.login);
+    const { data: { code, token, userInfo, message: info } = {} } = await userLogin(values.login);
     if (code === 200) {
+      if (userInfo.role !== 1) {
+        setErrorText(info);
+        return false;
+      }
       message.success(info);
       setLocalStorage('token', token);
       setLocalStorage('userInfo', userInfo);
-      navigate('/h', { replace: true });
+      navigate('/home', { replace: true });
       return true;
     }
     message.error(info);
@@ -40,7 +41,8 @@ const Index = () => {
     if (code === 200) {
       const { data: registerInfo } = await userRegister({
         ...values.regist,
-        headImgUrl: data
+        headImgUrl: data,
+        role: 2
       });
       if (registerInfo.code === 200) {
         formRef.current.resetFields();
@@ -61,22 +63,22 @@ const Index = () => {
       title="博客后台管理"
       subTitle="---chihaicheng"
       actions={false}
-      message={
-        errorText && (
-          <Alert type="warning" icon={<ExclamationCircleOutlined />} message={errorText} />
-        )
-      }
+      message={errorText && <Alert type="warning" showIcon message={errorText} />}
       layout="horizontal"
       labelAlign="right"
       labelCol={{ span: 5 }}
       wrapperCol={{ flex: 1 }}
       formRef={formRef}
+      submitter={{ searchConfig: { submitText: loginType === 'login' ? '登录' : '注册' } }}
       onFinish={async (values) => (values.regist ? register(values) : login(values))}
     >
       <Tabs
         centered
         activeKey={loginType}
-        onChange={(activeKey) => setLoginType(activeKey)}
+        onChange={(activeKey) => {
+          setErrorText('');
+          setLoginType(activeKey);
+        }}
         destroyInactiveTabPane
         items={[
           {
