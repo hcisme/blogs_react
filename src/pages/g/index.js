@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { LoginFormPage } from '@ant-design/pro-components';
 import { Alert, message, Tabs } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Login from './login';
 import Register from './register';
@@ -14,27 +15,11 @@ const Index = () => {
   const navigate = useNavigate();
   const formRef = useRef({});
 
-  const onFinish = async ({ values }) => {
-    if (values.headImgUrl) {
-      const { data: { code, data } = {} } = await uploadImg({
-        file: values.headImgUrl[0].file
-      });
-      if (code === 200) {
-        const { data: registerInfo } = await userRegister({
-          ...values,
-          headImgUrl: data
-        });
-        if (registerInfo.code === 200) {
-          formRef.current.resetFields();
-          message.success(registerInfo.message);
-          setLoginType('login');
-        }
-      }
-      return true;
-    }
+  const login = async (values) => {
+    setErrorText('');
     const {
       data: { code, token, userInfo, message: info }
-    } = await userLogin(values);
+    } = await userLogin(values.login);
     if (code === 200) {
       message.success(info);
       setLocalStorage('token', token);
@@ -47,6 +32,28 @@ const Index = () => {
     return false;
   };
 
+  const register = async (values) => {
+    setErrorText('');
+    const { data: { code, data } = {} } = await uploadImg({
+      file: values.regist.headImgUrl[0].file
+    });
+    if (code === 200) {
+      const { data: registerInfo } = await userRegister({
+        ...values.regist,
+        headImgUrl: data
+      });
+      if (registerInfo.code === 200) {
+        formRef.current.resetFields();
+        message.success(registerInfo.message);
+        setLoginType('login');
+        return true;
+      }
+      message.error(registerInfo.message);
+      return false;
+    }
+    return false;
+  };
+
   return (
     <LoginFormPage
       backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
@@ -54,31 +61,36 @@ const Index = () => {
       title="博客后台管理"
       subTitle="---chihaicheng"
       actions={false}
-      message={errorText && <Alert type="warning" message={errorText} />}
+      message={
+        errorText && (
+          <Alert type="warning" icon={<ExclamationCircleOutlined />} message={errorText} />
+        )
+      }
       layout="horizontal"
       labelAlign="right"
       labelCol={{ span: 5 }}
       wrapperCol={{ flex: 1 }}
       formRef={formRef}
-      onFinish={async (values) => onFinish({ values })}
+      onFinish={async (values) => (values.regist ? register(values) : login(values))}
     >
       <Tabs
         centered
         activeKey={loginType}
         onChange={(activeKey) => setLoginType(activeKey)}
+        destroyInactiveTabPane
         items={[
           {
             key: 'login',
-            label: '登录'
+            label: '登录',
+            children: <Login />
           },
           {
             key: 'register',
-            label: '注册'
+            label: '注册',
+            children: <Register />
           }
         ]}
       />
-      {loginType === 'login' && <Login />}
-      {loginType === 'register' && <Register />}
     </LoginFormPage>
   );
 };

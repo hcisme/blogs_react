@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import axios from 'axios';
 
 // 请求拦截器
@@ -14,13 +13,22 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
   (config) => {
-    return config;
+    console.log(config);
+    return { ...config, success: true };
   },
   (error) => {
-    if (error.response?.status === 500) {
-      message.warning('服务器出错了，请联系管理员。');
+    if (error.response?.status !== 200) {
+      return {
+        ...error,
+        ...error.response,
+        success: false,
+        data: {
+          ...error.response.data,
+          message: error.response.data?.message || '服务器出错了，请联系管理员。'
+        }
+      };
     }
-    return { ...error, ...error.response };
+    return { ...error, ...error.response, success: false };
   }
 );
 

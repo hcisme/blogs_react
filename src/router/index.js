@@ -17,7 +17,13 @@ const router = [
   },
   {
     path: '/h',
-    element: <Layout />
+    element: <Layout />,
+    children: [
+      {
+        path: '/h/a',
+        element: <>adasdasda</>
+      }
+    ]
   },
   {
     path: '*',

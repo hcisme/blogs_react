@@ -7,7 +7,7 @@ function Index() {
     <>
       <ProFormText
         label="用户名"
-        name="username"
+        name={['login', 'username']}
         fieldProps={{
           prefix: <UserOutlined />
         }}
@@ -20,7 +20,7 @@ function Index() {
       />
       <ProFormText.Password
         label="密码"
-        name="password"
+        name={['login', 'password']}
         fieldProps={{
           prefix: <LockOutlined />
         }}

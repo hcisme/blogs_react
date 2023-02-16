@@ -1,10 +1,6 @@
 import React from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
-import {
-  LockOutlined,
-  UserOutlined,
-  UsergroupDeleteOutlined
-} from '@ant-design/icons';
+import { LockOutlined, UserOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
 import ClipAvatar from '../_compoents/ClipAvatar';
 
 function Index() {
@@ -12,7 +8,7 @@ function Index() {
     <>
       <ProFormText
         label="用户名"
-        name="username"
+        name={['regist', 'username']}
         fieldProps={{
           prefix: <UserOutlined />
         }}
@@ -25,7 +21,7 @@ function Index() {
       />
       <ProFormText.Password
         label="密码"
-        name="password"
+        name={['regist', 'password']}
         fieldProps={{
           prefix: <LockOutlined />
         }}
@@ -38,7 +34,7 @@ function Index() {
       />
       <ProFormText
         label="昵称"
-        name="nickname"
+        name={['regist', 'nickname']}
         fieldProps={{
           prefix: <UsergroupDeleteOutlined />
         }}
@@ -51,7 +47,7 @@ function Index() {
       />
       <ProForm.Item
         label="头像"
-        name="headImgUrl"
+        name={['regist', 'headImgUrl']}
         rules={[
           {
             required: true,
