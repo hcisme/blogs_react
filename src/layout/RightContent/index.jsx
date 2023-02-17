@@ -47,10 +47,10 @@ function Index() {
           }
         }}
       >
-        <Space style={{ cursor: 'pointer' }}>
-          <Avatar size="large" src={headImgUrl} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+          <Avatar src={headImgUrl} />
           <span>{nickname}</span>
-        </Space>
+        </div>
       </Dropdown>
     </Space>
   );

@@ -57,13 +57,6 @@ const Index = (props) => {
           customRequest={(option) => {
             customRequest({ option, onChange });
           }}
-          // beforeUpload={() => false}
-          // onChange={(fileList) => {
-          //   console.log();
-          //   onChange([
-          //     { ...fileList.fileList[0], status: 'done', response: '' }
-          //   ]);
-          // }}
           onPreview={onPreview}
         >
           上传头像
