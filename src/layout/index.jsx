@@ -1,14 +1,15 @@
 import React from 'react';
-import { Card, Space } from 'antd';
+import { Space } from 'antd';
 import { useNavigate, Link, Outlet, Navigate } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
 import route, { basePath } from '../router';
-import { getLocalStorage } from '../utils/localStorage';
+import useToken from '../hooks/useToken';
 import RightContent from './RightContent';
 import logo from '../assets/images/Octocat.png';
 
 const Index = () => {
   const navigate = useNavigate();
+  const token = useToken();
   const newRoutingTable =
     route
       .find((item) => item.path === basePath)
@@ -40,34 +41,36 @@ const Index = () => {
             width: '600px'
           }
         ]}
-        menuFooterRender={() => (
-          <div style={{ width: '100%' }}>
-            <Space direction="vertical" align="center" style={{ width: '100%' }}>
-              <span>© 2023 Made by chihaicheng</span>
-              <Space direction="vertical">
-                <div>design by</div>
-                <div>
-                  <a
-                    href="https://ant-design.antgroup.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ant Design
-                  </a>
-                </div>
-                <div>
-                  <a
-                    href="https://procomponents.ant.design"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    procomponents.ant.design
-                  </a>
-                </div>
+        menuFooterRender={(props) =>
+          !props.collapsed && (
+            <div style={{ width: '100%' }}>
+              <Space direction="vertical" align="center" style={{ width: '100%' }}>
+                <span>© 2023 Made by chihaicheng</span>
+                <Space direction="vertical">
+                  <div>design by</div>
+                  <div>
+                    <a
+                      href="https://ant-design.antgroup.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ant Design
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      href="https://procomponents.ant.design"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      procomponents.ant.design
+                    </a>
+                  </div>
+                </Space>
               </Space>
-            </Space>
-          </div>
-        )}
+            </div>
+          )
+        }
         menuItemRender={(item, defaultDom) => {
           return <Link to={item.path}>{defaultDom}</Link>;
         }}
@@ -75,14 +78,12 @@ const Index = () => {
       >
         <RouteContext.Consumer>
           {() => {
-            if (!getLocalStorage('token')) {
+            if (!token) {
               return <Navigate to="/" />;
             }
             return (
               <PageContainer pageHeaderRender={false}>
-                <Card>
-                  <Outlet />
-                </Card>
+                <Outlet />
               </PageContainer>
             );
           }}

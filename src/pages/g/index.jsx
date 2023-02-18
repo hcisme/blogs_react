@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { LoginFormPage } from '@ant-design/pro-components';
 import { Alert, message, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +6,14 @@ import Login from './login';
 import Register from './register';
 import { uploadImg } from '../../services/upload';
 import { userLogin, userRegister } from '../../services/user';
-import { setLocalStorage } from '../../utils/localStorage';
+import { getSessionStorage, removeSessionStorage, setLocalStorage } from '../../utils/localStorage';
 
 const Index = () => {
   const [loginType, setLoginType] = useState('login');
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
   const formRef = useRef({});
+  const loginstatusMessage = getSessionStorage('loginstatusMessage');
 
   const login = async (values) => {
     setErrorText('');
@@ -55,6 +56,14 @@ const Index = () => {
     }
     return false;
   };
+
+  useEffect(() => {
+    if (loginstatusMessage) {
+      message.error(loginstatusMessage);
+      removeSessionStorage('loginstatusMessage');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <LoginFormPage

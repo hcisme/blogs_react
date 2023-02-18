@@ -14,7 +14,10 @@ export const basePath = '/home';
 const Layout = lazy(() => import('../layout'));
 const Login = lazy(() => import('../pages/g'));
 const UserManage = lazy(() => import('../pages/user-manage'));
+const ArticleMange = lazy(() => import('../pages/article-manage'));
 const PublicBlog = lazy(() => import('../pages/public-blogs'));
+const EditArticle = lazy(() => import('../pages/article-manage/edit-article'));
+const PreviewArticle = lazy(() => import('../pages/article-manage/preview-article'));
 
 const router = [
   {
@@ -41,7 +44,7 @@ const router = [
       },
       {
         path: `${basePath}/article-manage`,
-        element: <>文章管理</>,
+        element: <ArticleMange />,
         name: '文章管理',
         icon: <FileProtectOutlined />
       },
@@ -50,6 +53,14 @@ const router = [
         element: <PublicBlog />,
         name: '发布博客',
         icon: <FormOutlined />
+      },
+      {
+        path: `${basePath}/edit-article/:id`,
+        element: <EditArticle />
+      },
+      {
+        path: `${basePath}/preview-article/:id`,
+        element: <PreviewArticle />
       }
     ].map((item) => ({
       ...item,

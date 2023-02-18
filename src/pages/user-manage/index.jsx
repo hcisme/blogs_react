@@ -9,7 +9,8 @@ const Index = () => {
   const columns = [
     {
       dataIndex: 'index',
-      width: 48
+      width: 48,
+      hideInSearch: true
     },
     {
       title: '标题',
@@ -27,11 +28,12 @@ const Index = () => {
       disable: true,
       title: '标签',
       dataIndex: 'labels',
-      search: false
+      hideInSearch: true
     },
     {
       title: '操作',
-      key: 'option'
+      key: 'option',
+      hideInSearch: true
     }
   ];
 

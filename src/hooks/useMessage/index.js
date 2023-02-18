@@ -67,5 +67,6 @@ export default function useMessage() {
       content: errorTextPlus,
       ...messageConfig
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

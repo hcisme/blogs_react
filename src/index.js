@@ -9,10 +9,10 @@ import App from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <ConfigProvider locale={zhCN}>
-      <Suspense fallback={<PageLoading />}>
+    <Suspense fallback={<PageLoading />}>
+      <ConfigProvider locale={zhCN}>
         <App />
-      </Suspense>
-    </ConfigProvider>
+      </ConfigProvider>
+    </Suspense>
   </BrowserRouter>
 );

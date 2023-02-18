@@ -1,9 +1,17 @@
+import { message } from 'antd';
 import axios from 'axios';
+import { getLocalStorage, setSessionStorage } from '../localStorage';
 
 // 请求拦截器
 axios.interceptors.request.use(
   (config) => {
-    return config;
+    return {
+      ...config,
+      headers: {
+        ...config.headers,
+        Authorization: `Bearer ${getLocalStorage('token')}`
+      }
+    };
   },
   (error) => {
     return Promise.reject(error);
@@ -16,6 +24,11 @@ axios.interceptors.response.use(
     return { ...config, success: true };
   },
   (error) => {
+    if (error.response?.status === 401) {
+      message.error(error.response.data?.message);
+      setSessionStorage({ key: 'loginstatusMessage', value: error.response.data?.message });
+      window.location.replace('/g');
+    }
     if (error.response?.status !== 200) {
       return {
         ...error,
