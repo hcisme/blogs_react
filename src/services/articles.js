@@ -1,4 +1,3 @@
-import { omit } from 'lodash';
 import axios from '../utils/axiosInterceptors';
 
 export const publicArticles = (params) => {
@@ -6,8 +5,7 @@ export const publicArticles = (params) => {
 };
 
 export const getTargetUserArticles = (params) => {
-  const searchWord = omit(params.params, ['current', 'pageSize']);
-  return axios.get(`/api/articles/users/${params.uid}`, { params: searchWord });
+  return axios.get(`/api/articles/users/${params.uid}`, params);
 };
 
 export const deleteTargetArticle = (params) => {

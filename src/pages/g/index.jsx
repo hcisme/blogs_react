@@ -42,8 +42,7 @@ const Index = () => {
     if (code === 200) {
       const { data: registerInfo } = await userRegister({
         ...values.regist,
-        headImgUrl: data,
-        role: 2
+        headImgUrl: data
       });
       if (registerInfo.code === 200) {
         formRef.current.resetFields();

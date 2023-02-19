@@ -1,57 +1,101 @@
 import { useRef } from 'react';
-import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Popconfirm, Space } from 'antd';
+import dayjs from 'dayjs';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
+import useMessage from '../../hooks/useMessage';
+import { deleteTargetUser, getAllUserList } from '../../services/user';
+import DrawerForm from './Edit';
 
 const Index = () => {
   const actionRef = useRef({});
+  const messagePro = useMessage();
 
   const columns = [
     {
-      dataIndex: 'index',
-      width: 48,
-      hideInSearch: true
+      title: '用户名',
+      dataIndex: 'username'
     },
     {
-      title: '标题',
-      dataIndex: 'title',
-      copyable: true,
-      ellipsis: true,
-      tip: '标题过长会自动收缩'
+      title: '昵称',
+      dataIndex: 'nickname'
     },
     {
-      disable: true,
-      title: '状态',
-      dataIndex: 'state'
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      hideInSearch: true,
+      render: (text) => dayjs(text).format('YYYY-MM-DD')
     },
     {
-      disable: true,
-      title: '标签',
-      dataIndex: 'labels',
-      hideInSearch: true
+      title: '角色',
+      dataIndex: 'role',
+      valueEnum: {
+        1: {
+          text: '超级管理员'
+        },
+        2: {
+          text: '普通用户'
+        }
+      }
     },
     {
       title: '操作',
       key: 'option',
-      hideInSearch: true
+      width: 80,
+      hideInSearch: true,
+      render: (_, record) => (
+        <Space>
+          <DrawerForm
+            title="编辑"
+            record={record}
+            onOk={() => {
+              actionRef.current?.reload();
+            }}
+          >
+            <a title="编辑">
+              <EditOutlined />
+            </a>
+          </DrawerForm>
+          <Popconfirm
+            title="确认删除此用户吗"
+            onConfirm={async () => {
+              const response = await deleteTargetUser({ id: record._id });
+              messagePro({
+                response,
+                onSuccess: () => {
+                  actionRef.current.reload();
+                }
+              });
+              return response.success;
+            }}
+          >
+            <a title="删除">
+              <DeleteOutlined />
+            </a>
+          </Popconfirm>
+        </Space>
+      )
     }
   ];
 
   return (
     <ProTable
-      dataSource={[]}
       columns={columns}
       actionRef={actionRef}
-      tableLayout="fixed"
-      rowKey="id"
+      rowKey="_id"
       search={{
         optionRender: (searchConfig, props, defaultDom) => defaultDom.reverse()
       }}
-      toolBarRender={() => [
-        <Button key="button" icon={<PlusOutlined />} type="primary">
-          新建
-        </Button>
-      ]}
+      request={async (params) => {
+        const { success, data: { data = [], total } = {} } = await getAllUserList({
+          params
+        });
+        return {
+          success,
+          data,
+          total
+        };
+      }}
     />
   );
 };

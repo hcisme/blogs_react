@@ -58,6 +58,7 @@ const Index = () => {
     {
       title: '操作',
       key: 'option',
+      width: 80,
       hideInSearch: true,
       render: (_, record) => {
         return (
@@ -100,14 +101,14 @@ const Index = () => {
       columnEmptyText={false}
       rowKey="_id"
       request={async (params) => {
-        const { success, data: { data = [] } = {} } = await getTargetUserArticles({
+        const { success, data: { data = [], total } = {} } = await getTargetUserArticles({
           uid: _id,
           params
         });
         return {
           success,
           data,
-          total: data.total
+          total
         };
       }}
       search={{
