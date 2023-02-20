@@ -21,7 +21,7 @@ const Index = () => {
       render: (text, record) => (
         <a
           onClick={() => {
-            navigate(`/home/preview-article/${record.id}`);
+            navigate(`/preview-article/${record.id}`);
           }}
         >
           {text}
@@ -65,7 +65,7 @@ const Index = () => {
           <Space>
             <a
               onClick={() => {
-                navigate(`/home/edit-article/${record._id}`);
+                navigate(`/edit-article/${record._id}`);
               }}
               title="编辑"
             >

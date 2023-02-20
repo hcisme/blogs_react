@@ -48,7 +48,17 @@ function Index() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-          <Avatar src={headImgUrl} />
+          <Avatar
+            src={headImgUrl}
+            style={
+              !headImgUrl && {
+                backgroundColor: '#fde3cf',
+                color: '#f56a00'
+              }
+            }
+          >
+            u
+          </Avatar>
           <span>{nickname}</span>
         </div>
       </Dropdown>

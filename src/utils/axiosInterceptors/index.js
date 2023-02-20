@@ -2,7 +2,7 @@ import { message } from 'antd';
 import axios from 'axios';
 import { getLocalStorage, setSessionStorage } from '../localStorage';
 
-// axios.defaults.baseURL = 'http://127.0.0.1:3002';
+// axios.defaults.baseURL = 'http://81.68.248.232:3002';
 // "homepage": ".",
 
 // 请求拦截器

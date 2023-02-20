@@ -7,6 +7,7 @@ import Register from './register';
 import { uploadImg } from '../../services/upload';
 import { userLogin, userRegister } from '../../services/user';
 import { getSessionStorage, removeSessionStorage, setLocalStorage } from '../../utils/localStorage';
+import logo from '../../assets/images/Octocat.png';
 
 const Index = () => {
   const [loginType, setLoginType] = useState('login');
@@ -26,7 +27,7 @@ const Index = () => {
       message.success(info);
       setLocalStorage('token', token);
       setLocalStorage('userInfo', userInfo);
-      navigate('/home', { replace: true });
+      navigate('/', { replace: true });
       return true;
     }
     message.error(info);
@@ -67,7 +68,7 @@ const Index = () => {
   return (
     <LoginFormPage
       backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
-      logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+      logo={logo}
       title="博客后台管理"
       subTitle="---chihaicheng"
       actions={false}

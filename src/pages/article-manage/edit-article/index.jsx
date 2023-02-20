@@ -27,7 +27,7 @@ const Index = () => {
       messagePro({
         response,
         onSuccess: () => {
-          navigate('/home/article-manage');
+          navigate('/article-manage');
         }
       });
     } catch (error) {}

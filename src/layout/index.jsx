@@ -1,10 +1,10 @@
 import React from 'react';
-import { Space } from 'antd';
 import { useNavigate, Link, Outlet, Navigate } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
-import route, { basePath } from '../router';
+import route from '../router';
 import useToken from '../hooks/useToken';
 import RightContent from './RightContent';
+import MenuFooter from './MenuFooter';
 import logo from '../assets/images/Octocat.png';
 
 const Index = () => {
@@ -12,7 +12,7 @@ const Index = () => {
   const token = useToken();
   const newRoutingTable =
     route
-      .find((item) => item.path === basePath)
+      .find((item) => item.path === '/')
       .children.filter((i) => i.icon)
       .map(({ path, name, icon }) => ({ path, name, icon })) || [];
 
@@ -41,36 +41,7 @@ const Index = () => {
             width: '600px'
           }
         ]}
-        menuFooterRender={(props) =>
-          !props.collapsed && (
-            <div style={{ width: '100%' }}>
-              <Space direction="vertical" align="center" style={{ width: '100%' }}>
-                <span>© 2023 Made by chihaicheng</span>
-                <Space direction="vertical">
-                  <div>design by</div>
-                  <div>
-                    <a
-                      href="https://ant-design.antgroup.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Ant Design
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href="https://procomponents.ant.design"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      procomponents.ant.design
-                    </a>
-                  </div>
-                </Space>
-              </Space>
-            </div>
-          )
-        }
+        menuFooterRender={(props) => !props.collapsed && <MenuFooter />}
         menuItemRender={(item, defaultDom) => {
           return <Link to={item.path}>{defaultDom}</Link>;
         }}
@@ -79,7 +50,7 @@ const Index = () => {
         <RouteContext.Consumer>
           {() => {
             if (!token) {
-              return <Navigate to="/" />;
+              return <Navigate to="/g" />;
             }
             return (
               <PageContainer pageHeaderRender={false}>
