@@ -6,10 +6,12 @@ import useToken from '../hooks/useToken';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
 import logo from '../assets/images/Octocat.png';
+import { getLocalStorage } from '../utils/localStorage';
 
 const Index = () => {
   const navigate = useNavigate();
   const token = useToken();
+  const { _id } = getLocalStorage('userInfo') || {};
   const newRoutingTable =
     route
       .find((item) => item.path === '/')
@@ -23,43 +25,44 @@ const Index = () => {
         height: '100%'
       }}
     >
-      <ProLayout
-        title="博客系统"
-        logo={<img src={logo} alt="" />}
-        fixSiderbar
-        fixedHeader
-        layout="mix"
-        onMenuHeaderClick={() => navigate('/')}
-        collapsedButtonRender={false}
-        rightContentRender={() => <RightContent />}
-        location={window.location}
-        bgLayoutImgList={[
-          {
-            src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
-            bottom: 0,
-            left: 0,
-            width: '600px'
-          }
-        ]}
-        menuFooterRender={(props) => !props.collapsed && <MenuFooter />}
-        menuItemRender={(item, defaultDom) => {
-          return <Link to={item.path}>{defaultDom}</Link>;
-        }}
-        route={{ routes: newRoutingTable }}
-      >
-        <RouteContext.Consumer>
-          {() => {
-            if (!token) {
-              return <Navigate to="/g" />;
+      {token && _id ? (
+        <ProLayout
+          title="博客系统"
+          logo={<img src={logo} alt="" />}
+          fixSiderbar
+          fixedHeader
+          layout="mix"
+          onMenuHeaderClick={() => navigate('/')}
+          collapsedButtonRender={false}
+          rightContentRender={() => <RightContent />}
+          location={window.location}
+          bgLayoutImgList={[
+            {
+              src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
+              bottom: 0,
+              left: 0,
+              width: '600px'
             }
-            return (
-              <PageContainer pageHeaderRender={false}>
-                <Outlet />
-              </PageContainer>
-            );
+          ]}
+          menuFooterRender={(props) => !props.collapsed && <MenuFooter />}
+          menuItemRender={(item, defaultDom) => {
+            return <Link to={item.path}>{defaultDom}</Link>;
           }}
-        </RouteContext.Consumer>
-      </ProLayout>
+          route={{ routes: newRoutingTable }}
+        >
+          <RouteContext.Consumer>
+            {() => {
+              return (
+                <PageContainer pageHeaderRender={false}>
+                  <Outlet />
+                </PageContainer>
+              );
+            }}
+          </RouteContext.Consumer>
+        </ProLayout>
+      ) : (
+        <Navigate to="/g" />
+      )}
     </div>
   );
 };

@@ -6,7 +6,12 @@ import Login from './login';
 import Register from './register';
 import { uploadImg } from '../../services/upload';
 import { userLogin, userRegister } from '../../services/user';
-import { getSessionStorage, removeSessionStorage, setLocalStorage } from '../../utils/localStorage';
+import {
+  getSessionStorage,
+  removeLocalStorage,
+  removeSessionStorage,
+  setLocalStorage
+} from '../../utils/localStorage';
 import logo from '../../assets/images/Octocat.png';
 
 const Index = () => {
@@ -58,6 +63,9 @@ const Index = () => {
   };
 
   useEffect(() => {
+    removeLocalStorage('token');
+    removeLocalStorage('userInfo');
+
     if (loginstatusMessage) {
       message.error(loginstatusMessage);
       removeSessionStorage('loginstatusMessage');

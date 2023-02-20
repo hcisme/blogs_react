@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, message, Space, Tooltip } from 'antd';
 import { LogoutOutlined, GithubOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getLocalStorage, removeLocalStorage } from '../../utils/localStorage';
+import { getLocalStorage } from '../../utils/localStorage';
 
 function Index() {
   const navigate = useNavigate();
@@ -36,8 +36,6 @@ function Index() {
           onClick: ({ key }) => {
             switch (key) {
               case 'logout':
-                removeLocalStorage('token');
-                removeLocalStorage('userInfo');
                 message.success('退出登录成功');
                 navigate('/g', { replace: true });
                 break;
