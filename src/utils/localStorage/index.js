@@ -1,9 +1,18 @@
+const loginInfoKeyWordList = ['token', 'userInfo'];
+
 /**
  *
  * @param {string} key
  */
 const getLocalStorage = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+  try {
+    localStorage.getItem(key) && JSON.parse(localStorage.getItem(key));
+  } catch (error) {
+    if (loginInfoKeyWordList.includes(key)) {
+      window.location.replace('/g');
+    }
+  }
+  return localStorage.getItem(key) && JSON.parse(localStorage.getItem(key));
 };
 
 /**
@@ -27,7 +36,7 @@ const removeLocalStorage = (key) => {
  * @param {string} key
  */
 const getSessionStorage = (key) => {
-  return JSON.parse(sessionStorage.getItem(key));
+  return sessionStorage.getItem(key) && JSON.parse(sessionStorage.getItem(key));
 };
 
 /**

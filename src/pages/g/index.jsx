@@ -32,7 +32,7 @@ const Index = () => {
       message.success(info);
       setLocalStorage('token', token);
       setLocalStorage('userInfo', userInfo);
-      navigate('/', { replace: true });
+      navigate('/user-manage', { replace: true });
       return true;
     }
     message.error(info);

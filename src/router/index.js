@@ -11,21 +11,27 @@ const ArticleMange = lazy(() => import('../pages/article-manage'));
 const PublicBlog = lazy(() => import('../pages/public-blogs'));
 const EditArticle = lazy(() => import('../pages/article-manage/edit-article'));
 const PreviewArticle = lazy(() => import('../pages/article-manage/preview-article'));
+const Redirecting = lazy(() => import('../pages/redirecting'));
 
 const router = [
+  {
+    path: '/',
+    element: <Navigate to="/redirecting" />
+  },
+  {
+    path: '/redirecting',
+    element: <Redirecting />
+  },
   {
     path: '/g',
     element: <Login />
   },
   {
-    path: '/',
     element: <Layout />,
+    menu: true,
     children: [
       {
-        path: '',
-        element: <Navigate to={`/user-manage`} />
-      },
-      {
+        index: true,
         path: `/user-manage`,
         element: <UserManage />,
         name: '用户管理',
