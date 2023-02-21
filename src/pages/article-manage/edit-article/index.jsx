@@ -16,7 +16,7 @@ const Index = () => {
   );
 
   const { runAsync: saveArticlesRunAsync, loading: saveLoading } = useRequest(
-    (values) => saveArticles({ ...values, tag: values.tag.split(' ').join(',') }, id),
+    (values) => saveArticles({ ...values, tag: values.tag.join(',') }, id),
     { manual: true }
   );
 
