@@ -1,14 +1,16 @@
 import { useRef } from 'react';
 import { Popconfirm, Space } from 'antd';
 import dayjs from 'dayjs';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import useMessage from '../../hooks/useMessage';
 import { deleteTargetUser, getAllUserList } from '../../services/user';
 import DrawerForm from './Edit';
+import { getLocalStorage } from '../../utils/localStorage';
 
 const Index = () => {
   const actionRef = useRef({});
+  const { _id } = getLocalStorage('userInfo');
   const messagePro = useMessage();
 
   const columns = [
@@ -47,32 +49,35 @@ const Index = () => {
         <Space>
           <DrawerForm
             title="编辑"
+            disabled={record?._id === _id}
             record={record}
             onOk={() => {
               actionRef.current?.reload();
             }}
           >
-            <a title="编辑">
-              <EditOutlined />
+            <a title={record?._id === _id ? '预览' : '编辑'}>
+              {record?._id === _id ? <EyeOutlined /> : <EditOutlined />}
             </a>
           </DrawerForm>
-          <Popconfirm
-            title="确认删除此用户吗"
-            onConfirm={async () => {
-              const response = await deleteTargetUser({ id: record._id });
-              messagePro({
-                response,
-                onSuccess: () => {
-                  actionRef.current.reload();
-                }
-              });
-              return response.success;
-            }}
-          >
-            <a title="删除">
-              <DeleteOutlined />
-            </a>
-          </Popconfirm>
+          {record?._id !== _id && (
+            <Popconfirm
+              title="确认删除此用户吗"
+              onConfirm={async () => {
+                const response = await deleteTargetUser({ id: record._id });
+                messagePro({
+                  response,
+                  onSuccess: () => {
+                    actionRef.current.reload();
+                  }
+                });
+                return response.success;
+              }}
+            >
+              <a title="删除">
+                <DeleteOutlined />
+              </a>
+            </Popconfirm>
+          )}
         </Space>
       )
     }

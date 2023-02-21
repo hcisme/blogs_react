@@ -6,7 +6,7 @@ import { getLocalStorage, setLocalStorage } from '../../../utils/localStorage';
 import { message } from 'antd';
 
 const Index = (props) => {
-  const { children, title, record = {}, onOk } = props;
+  const { children, title, disabled = false, record = {}, onOk } = props;
   const formRef = useRef({});
   const messagePro = useMessage({});
   const userInfo = getLocalStorage('userInfo');
@@ -41,13 +41,13 @@ const Index = (props) => {
         destroyOnClose: true
       }}
       onFinish={save}
+      disabled={disabled}
     >
       <ProFormText label="用户名" name="username" rules={[{ required: true }]} />
       <ProFormText label="昵称" name="nickname" rules={[{ required: true }]} />
       <ProFormRadio.Group
         label="角色"
         name="role"
-        disabled={record._id === userInfo._id}
         rules={[{ required: true }]}
         options={[
           { label: '超级管理员', value: 1 },

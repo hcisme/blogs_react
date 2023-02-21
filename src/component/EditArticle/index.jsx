@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd';
-import { FooterToolbar, ProForm, ProFormText } from '@ant-design/pro-components';
+import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import quillEmoji from 'quill-emoji';
 import 'quill-emoji/dist/quill-emoji.css';
 import { getLocalStorage } from '../../utils/localStorage';
+import { languageTagList } from '../../utils/dictionary';
 
 const { EmojiBlot, ShortNameEmoji, ToolbarEmoji, TextAreaEmoji } = quillEmoji;
 
@@ -48,7 +49,11 @@ function Index(props) {
   const { headImgUrl, nickname, username } = getLocalStorage('userInfo') || {};
 
   return (
-    <ProForm formRef={formRef} submitter={false} initialValues={initialValues}>
+    <ProForm
+      formRef={formRef}
+      submitter={false}
+      initialValues={{ ...initialValues, tag: initialValues?.tag?.split(',') }}
+    >
       <Row>
         <Col span={24}>
           <ProForm.Item label="发布者">
@@ -72,11 +77,23 @@ function Index(props) {
           />
         </Col>
         <Col span={24}>
-          <ProFormText
+          <ProFormSelect
             label="标签"
             name="tag"
-            rules={[{ required: true }]}
-            placeholder="请输入文章标签 不同标签用空格分割"
+            fieldProps={{ mode: 'tags' }}
+            rules={[
+              {
+                required: true,
+                validator: (_, value) => {
+                  if (value.length > 5) {
+                    return Promise.reject(new Error('标签最多选择5个'));
+                  }
+                  return Promise.resolve();
+                }
+              }
+            ]}
+            placeholder="请输入文章标签"
+            options={languageTagList.map((item) => ({ label: item, value: item }))}
           />
         </Col>
         <Col span={24}>

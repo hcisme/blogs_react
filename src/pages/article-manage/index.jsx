@@ -48,7 +48,8 @@ const Index = () => {
     {
       title: '评论数量',
       dataIndex: 'commentTotal',
-      hideInSearch: true
+      hideInSearch: true,
+      render: (text) => text.length
     },
     {
       title: '浏览量',

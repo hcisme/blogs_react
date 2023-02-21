@@ -9,7 +9,7 @@ const Index = () => {
   const messagePro = useMessage();
 
   const { runAsync: publicArticlesRunAsync, loading } = useRequest(
-    (values) => publicArticles({ ...values, tag: values.tag.split(' ').join(',') }),
+    (values) => publicArticles({ ...values, tag: values.tag.join(',') }),
     { manual: true }
   );
 
