@@ -37,7 +37,7 @@ function Index() {
             switch (key) {
               case 'logout':
                 message.success('退出登录成功');
-                navigate('/g', { replace: true });
+                window.location.replace('/g');
                 break;
               default:
                 break;
