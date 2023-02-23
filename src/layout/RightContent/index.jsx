@@ -1,11 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, message, Space, Tooltip } from 'antd';
 import { LogoutOutlined, GithubOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { getLocalStorage } from '../../utils/localStorage';
 
 function Index() {
-  const navigate = useNavigate();
   const { headImgUrl, nickname } = getLocalStorage('userInfo') || {};
 
   const items = [

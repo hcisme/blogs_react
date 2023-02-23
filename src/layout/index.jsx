@@ -16,9 +16,8 @@ const Index = () => {
 
   return (
     <div
-      id="test-pro-layout"
       style={{
-        height: '100%'
+        height: '100vh'
       }}
     >
       <ProLayout
@@ -48,7 +47,13 @@ const Index = () => {
         <RouteContext.Consumer>
           {() => {
             return (
-              <PageContainer pageHeaderRender={false}>
+              <PageContainer
+                id="preview-article-scrollableDiv"
+                style={{
+                  overflow: 'auto'
+                }}
+                pageHeaderRender={false}
+              >
                 <Outlet />
               </PageContainer>
             );

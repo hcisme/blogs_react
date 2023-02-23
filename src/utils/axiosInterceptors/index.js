@@ -12,7 +12,7 @@ axios.interceptors.request.use(
       ...config,
       headers: {
         ...config.headers,
-        Authorization: `Bearer ${getLocalStorage('token')}`
+        Authorization: getLocalStorage('token') ? `Bearer ${getLocalStorage('token')}` : undefined
       }
     };
   },

@@ -42,7 +42,7 @@ const Index = () => {
 
   const register = async (values) => {
     setErrorText('');
-    const { data: { code, data } = {} } = await uploadImg({
+    const { data: { code, data, message: uploadMsg } = {} } = await uploadImg({
       file: values.regist.headImgUrl[0].file
     });
     if (code === 200) {
@@ -59,6 +59,7 @@ const Index = () => {
       message.error(registerInfo.message);
       return false;
     }
+    message.error(uploadMsg);
     return false;
   };
 

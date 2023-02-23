@@ -26,7 +26,7 @@ const onPreview = async (file) => {
   if (!src) {
     src = await new Promise((resolve) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file.originFileObj);
+      reader.readAsDataURL(file.file);
       reader.onload = () => resolve(reader.result);
     });
   }
@@ -41,14 +41,7 @@ const Index = (props) => {
 
   return (
     <span id={id}>
-      <ImgCrop
-        rotate
-        grid
-        shape="round"
-        modalTitle="修剪图片"
-        modalOk="确定"
-        modalCancel="取消"
-      >
+      <ImgCrop rotate grid shape="round" modalTitle="修剪图片" modalOk="确定" modalCancel="取消">
         <Upload
           maxCount={1}
           accept=".png,.jpg,.jpeg,.gif"
@@ -57,6 +50,8 @@ const Index = (props) => {
           customRequest={(option) => {
             customRequest({ option, onChange });
           }}
+          // showUploadList
+          onRemove={() => onChange([])}
           onPreview={onPreview}
         >
           上传头像
