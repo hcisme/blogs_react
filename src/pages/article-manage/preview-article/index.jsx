@@ -11,10 +11,11 @@ import {
   Tag,
   Tooltip
 } from 'antd';
+import { uniqBy } from 'lodash';
+import dayjs from '../../../utils/dayjs';
 import { EyeOutlined, MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { useRequest } from 'ahooks';
 import 'quill-emoji/dist/quill-emoji.css';
 import useMessage from '../../../hooks/useMessage';
@@ -24,7 +25,6 @@ import { isStarFn } from '../../../services/star';
 import CodeHighLight from '../../../component/CodeHighLight';
 import { tagsColorList } from '../../../utils/dictionary';
 import { getLocalStorage } from '../../../utils/localStorage';
-import { uniqBy } from 'lodash';
 
 const IconText = ({ icon, text, style = {}, ...rest }) => (
   <Space style={style} {...rest}>
@@ -115,7 +115,7 @@ function Index() {
           size="large"
           bordered
           dataSource={[data]}
-          footer={<span>最后更新时间：{dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm')}</span>}
+          footer={<span>最后更新时间：{dayjs(data.updatedAt).fromNow()}</span>}
           renderItem={(item) => {
             const isStared = !!item?.starList?.find((i) => i.star_user_id === _id)?.isStar;
             const starId = item?.starList?.find((i) => i.star_user_id === _id)?._id;
@@ -151,7 +151,7 @@ function Index() {
                   description={
                     <Space size="large">
                       <span style={{ fontSize: 13 }}>作者：{item?.author?.nickname}</span>
-                      <span>创建时间：{dayjs(data.createdAt).format('YYYY-MM-DD HH:mm')}</span>
+                      <span>创建时间：{dayjs(data.createdAt).fromNow()}</span>
                       <span>
                         {item?.tag?.split(',')?.map((i) => (
                           <Tag key={i} color={color}>
@@ -214,8 +214,13 @@ function Index() {
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.reply_user_id?.headImgUrl} />}
-                  title={<a href="https://ant.design">{item.reply_user_id?.nickname}</a>}
-                  description={item.content}
+                  title={<a>{item.reply_user_id?.nickname}</a>}
+                  description={
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <span style={{ fontSize: 12 }}>{dayjs(data.createdAt).fromNow()}</span>
+                      <span>{item?.content}</span>
+                    </Space>
+                  }
                 />
               </List.Item>
             )}
