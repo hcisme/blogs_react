@@ -37,13 +37,13 @@ const Index = () => {
       title: '发布时间',
       dataIndex: 'createdAt',
       hideInSearch: true,
-      render: (text) => dayjs(text).format('YYYY-MM-DD hh:mm:ss')
+      render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '修改时间',
       dataIndex: 'updatedAt',
       hideInSearch: true,
-      render: (text) => text && dayjs(text).format('YYYY-MM-DD hh:mm:ss')
+      render: (text) => text && dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '评论数量',
