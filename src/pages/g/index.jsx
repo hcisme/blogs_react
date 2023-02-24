@@ -4,15 +4,16 @@ import { Alert, message, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Login from './login';
 import Register from './register';
-import { uploadImg } from '../../services/upload';
-import { userLogin, userRegister } from '../../services/user';
+import { uploadImg } from '@/services/upload';
+import { userLogin, userRegister } from '@/services/user';
 import {
   getSessionStorage,
   removeLocalStorage,
   removeSessionStorage,
   setLocalStorage
-} from '../../utils/localStorage';
-import logo from '../../assets/images/Octocat.png';
+} from '@/utils/localStorage';
+import logo from '@/assets/images/Octocat.png';
+import { encrypt } from '@/utils/CryptoJS';
 
 const Index = () => {
   const [loginType, setLoginType] = useState('login');
@@ -23,7 +24,11 @@ const Index = () => {
 
   const login = async (values) => {
     setErrorText('');
-    const { data: { code, token, userInfo, message: info } = {} } = await userLogin(values.login);
+    const { login: { username, password } = {} } = values;
+    const { data: { code, token, userInfo, message: info } = {} } = await userLogin({
+      username,
+      password: encrypt(password)
+    });
     if (code === 200) {
       if (userInfo.role !== 1) {
         setErrorText(info);
@@ -46,9 +51,11 @@ const Index = () => {
       file: values.regist.headImgUrl[0].file
     });
     if (code === 200) {
+      const { regist: { password } = {} } = values;
       const { data: registerInfo } = await userRegister({
         ...values.regist,
-        headImgUrl: data
+        headImgUrl: data,
+        password: encrypt(password)
       });
       if (registerInfo.code === 200) {
         formRef.current.resetFields();

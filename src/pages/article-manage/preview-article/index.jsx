@@ -18,13 +18,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 import { useRequest } from 'ahooks';
 import 'quill-emoji/dist/quill-emoji.css';
-import useMessage from '../../../hooks/useMessage';
-import { getArticleInfoById } from '../../../services/articles';
-import { deleteCommentByCid, getCommentList } from '../../../services/comment';
-import { isStarFn } from '../../../services/star';
-import CodeHighLight from '../../../component/CodeHighLight';
-import { tagsColorList } from '../../../utils/dictionary';
-import { getLocalStorage } from '../../../utils/localStorage';
+import useMessage from '@/hooks/useMessage';
+import { getArticleInfoById } from '@/services/articles';
+import { deleteCommentByCid, getCommentList } from '@/services/comment';
+import { isStarFn } from '@/services/star';
+import CodeHighLight from '@/component/CodeHighLight';
+import { tagsColorList } from '@/utils/dictionary';
+import { getLocalStorage } from '@/utils/localStorage';
 
 const IconText = ({ icon, text, style = {}, ...rest }) => (
   <Space style={style} {...rest}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate, Link, Outlet } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
-import route from '../router';
+import route from '@/router';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
-import logo from '../assets/images/Octocat.png';
+import logo from '@/assets/images/Octocat.png';
 
 const Index = () => {
   const navigate = useNavigate();

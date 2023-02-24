@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, Spin } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
-import EditArticle from '../../../component/EditArticle';
-import useMessage from '../../../hooks/useMessage';
-import { saveArticles, getArticleInfoById } from '../../../services/articles';
+import EditArticle from '@/component/EditArticle';
+import useMessage from '@/hooks/useMessage';
+import { saveArticles, getArticleInfoById } from '@/services/articles';
 
 const Index = () => {
   const messagePro = useMessage();

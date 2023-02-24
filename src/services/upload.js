@@ -1,4 +1,4 @@
-import axios from '../utils/axiosInterceptors';
+import axios from '@/utils/axiosInterceptors';
 
 export const uploadImg = async (params) => {
   const { file } = params;

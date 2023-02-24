@@ -4,9 +4,9 @@ import { Popconfirm, Space, Tag } from 'antd';
 import { ProTable } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { deleteTargetArticle, getTargetUserArticles } from '../../services/articles';
-import { getLocalStorage } from '../../utils/localStorage';
-import useMessage from '../../hooks/useMessage';
+import { deleteTargetArticle, getTargetUserArticles } from '@/services/articles';
+import { getLocalStorage } from '@/utils/localStorage';
+import useMessage from '@/hooks/useMessage';
 
 const Index = () => {
   const actionRef = useRef({});

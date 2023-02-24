@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Dropdown, message, Space, Tooltip } from 'antd';
 import { LogoutOutlined, GithubOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getLocalStorage } from '../../utils/localStorage';
+import { getLocalStorage } from '@/utils/localStorage';
 
 function Index() {
   const { headImgUrl, nickname } = getLocalStorage('userInfo') || {};

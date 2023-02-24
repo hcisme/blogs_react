@@ -1,4 +1,4 @@
-import axios from '../utils/axiosInterceptors';
+import axios from '@/utils/axiosInterceptors';
 
 export const getCommentList = (params) => {
   const { current, pageSize } = params;

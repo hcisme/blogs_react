@@ -1,4 +1,4 @@
-import axios from '../utils/axiosInterceptors';
+import axios from '@/utils/axiosInterceptors';
 
 /**
  * 获取最新登录身份信息的接口

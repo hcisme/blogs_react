@@ -1,4 +1,4 @@
-import { getLocalStorage } from '../../utils/localStorage';
+import { getLocalStorage } from '@/utils/localStorage';
 
 export default function Index() {
   return getLocalStorage('token');

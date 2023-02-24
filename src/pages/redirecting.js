@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { PageLoading } from '@ant-design/pro-components';
-import useToken from '../hooks/useToken';
-import { getLastUserInfo } from '../services';
-import { getLocalStorage } from '../utils/localStorage';
+import useToken from '@/hooks/useToken';
+import { getLastUserInfo } from '@/services';
+import { getLocalStorage } from '@/utils/localStorage';
 
 function Index() {
   const token = useToken();

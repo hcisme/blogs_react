@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card } from 'antd';
 import { useRequest } from 'ahooks';
-import EditArticle from '../../component/EditArticle';
-import useMessage from '../../hooks/useMessage';
-import { publicArticles } from '../../services/articles';
+import EditArticle from '@/component/EditArticle';
+import useMessage from '@/hooks/useMessage';
+import { publicArticles } from '@/services/articles';
 
 const Index = () => {
   const messagePro = useMessage();
