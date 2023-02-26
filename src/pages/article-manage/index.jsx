@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Popconfirm, Space, Tag } from 'antd';
+import { Popconfirm, Space, Tag, Tooltip } from 'antd';
 import { ProTable } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -18,43 +18,69 @@ const Index = () => {
     {
       title: '标题',
       dataIndex: 'title',
-      render: (text, record) => (
-        <a
-          onClick={() => {
-            navigate(`/preview-article/${record.id}`);
-          }}
-        >
-          {text}
-        </a>
+      width: '25%',
+      ellipsis: { showTitle: false },
+      renderText: (text, record) => (
+        <Tooltip title={text} placement="topLeft">
+          <a
+            onClick={() => {
+              navigate(`/preview-article/${record.id}`);
+            }}
+          >
+            {text}
+          </a>
+        </Tooltip>
       )
     },
     {
       title: '分类',
       dataIndex: 'tag',
-      render: (text) => text?.split(',').map((item, index) => <Tag key={index}>{item}</Tag>)
+      width: '20%',
+      render: (text) => {
+        const tags = text?.split(',').map((item, index) => <Tag key={index}>{item}</Tag>);
+        return (
+          <Tooltip
+            title={
+              tags.length > 3
+                ? text?.split(',').map((item, index) => (
+                    <Tag key={index} color="cyan">
+                      {item}
+                    </Tag>
+                  ))
+                : null
+            }
+          >
+            {tags?.slice(0, 3)}
+          </Tooltip>
+        );
+      }
     },
     {
       title: '发布时间',
       dataIndex: 'createdAt',
       hideInSearch: true,
+      width: '18%',
       render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '修改时间',
       dataIndex: 'updatedAt',
       hideInSearch: true,
+      width: '18%',
       render: (text) => text && dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '评论数量',
       dataIndex: 'commentTotal',
       hideInSearch: true,
+      width: 80,
       render: (text) => text.length
     },
     {
       title: '浏览量',
       dataIndex: 'views',
-      hideInSearch: true
+      hideInSearch: true,
+      width: 80
     },
     {
       title: '操作',

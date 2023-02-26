@@ -115,7 +115,14 @@ function Index() {
           size="large"
           bordered
           dataSource={[data]}
-          footer={<span>最后更新时间：{dayjs(data.updatedAt).fromNow()}</span>}
+          footer={
+            <span>
+              最后更新时间：
+              {dayjs().diff(data.updateAt, 'day') > 2
+                ? dayjs(data.updateAt).format('YYYY-MM-DD HH:mm:ss')
+                : dayjs(data.updateAt).fromNow()}
+            </span>
+          }
           renderItem={(item) => {
             const isStared = !!item?.starList?.find((i) => i.star_user_id === _id)?.isStar;
             const starId = item?.starList?.find((i) => i.star_user_id === _id)?._id;
@@ -151,7 +158,12 @@ function Index() {
                   description={
                     <Space size="large">
                       <span style={{ fontSize: 13 }}>作者：{item?.author?.nickname}</span>
-                      <span>创建时间：{dayjs(data.createdAt).fromNow()}</span>
+                      <span>
+                        创建时间：
+                        {dayjs().diff(data.createdAt, 'day') > 2
+                          ? dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')
+                          : dayjs(data.createdAt).fromNow()}
+                      </span>
                       <span>
                         {item?.tag?.split(',')?.map((i) => (
                           <Tag key={i} color={color}>
@@ -180,13 +192,14 @@ function Index() {
               active
             />
           }
-          endMessage={<Divider plain>没有更多了 🤐</Divider>}
+          endMessage={<Divider plain>没有更多评论了 🤐</Divider>}
           scrollableTarget="preview-article-scrollableDiv"
         >
           <List
             loading={commentLoading}
             itemLayout="horizontal"
             dataSource={commentList}
+            header="评论"
             renderItem={(item) => (
               <List.Item
                 actions={[
