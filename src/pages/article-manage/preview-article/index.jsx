@@ -118,9 +118,9 @@ function Index() {
           footer={
             <span>
               最后更新时间：
-              {dayjs().diff(data.updateAt, 'day') > 2
-                ? dayjs(data.updateAt).format('YYYY-MM-DD HH:mm:ss')
-                : dayjs(data.updateAt).fromNow()}
+              {`${dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                data.updatedAt
+              ).fromNow()})`}
             </span>
           }
           renderItem={(item) => {
@@ -160,9 +160,9 @@ function Index() {
                       <span style={{ fontSize: 13 }}>作者：{item?.author?.nickname}</span>
                       <span>
                         创建时间：
-                        {dayjs().diff(data.createdAt, 'day') > 2
-                          ? dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')
-                          : dayjs(data.createdAt).fromNow()}
+                        {`${dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                          data.createdAt
+                        ).fromNow()})`}
                       </span>
                       <span>
                         {item?.tag?.split(',')?.map((i) => (
