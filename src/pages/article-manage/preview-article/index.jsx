@@ -118,9 +118,9 @@ function Index() {
           footer={
             <span>
               最后更新时间：
-              {dayjs().diff(data.updateAt, 'day') > 2
-                ? dayjs(data.updateAt).format('YYYY-MM-DD HH:mm:ss')
-                : dayjs(data.updateAt).fromNow()}
+              {dayjs().diff(data.updatedAt, 'day') > 2
+                ? dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+                : dayjs(data.updatedAt).fromNow()}
             </span>
           }
           renderItem={(item) => {
