@@ -8,6 +8,7 @@ import {
   Popconfirm,
   Skeleton,
   Space,
+  Switch,
   Tag,
   Tooltip
 } from 'antd';
@@ -39,6 +40,7 @@ function Index() {
   const { id } = useParams();
   const messagePro = useMessage();
   const [commentList, setCommentList] = useState([]);
+  const [mode, setMode] = useState(false);
   const { _id } = getLocalStorage('userInfo');
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
   const {
@@ -150,6 +152,14 @@ function Index() {
                     key="commentTotal"
                   />
                 ]}
+                extra={
+                  <Switch
+                    size="small"
+                    unCheckedChildren="dark"
+                    checkedChildren="light"
+                    onChange={setMode}
+                  />
+                }
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item?.author?.headImgUrl} size="large" />}
@@ -173,11 +183,14 @@ function Index() {
                     </Space>
                   }
                 />
-                <CodeHighLight html={item.content} />
+                {/* 正文 */}
+                <CodeHighLight html={item.content} mode={mode} />
               </List.Item>
             );
           }}
         />
+
+        {/* 评论 */}
         <InfiniteScroll
           dataLength={commentTotal}
           next={loadMoreComments}
