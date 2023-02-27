@@ -30,7 +30,9 @@ const Index = () => {
           navigate('/article-manage');
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

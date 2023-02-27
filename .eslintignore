@@ -1,0 +1,10 @@
+/build
+/public
+/node_modules
+
+/src/assets/**
+
+/package-lock.json
+/package.json
+
+*.css

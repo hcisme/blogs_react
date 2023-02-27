@@ -118,9 +118,9 @@ function Index() {
           footer={
             <span>
               最后更新时间：
-              {dayjs().diff(data.updatedAt, 'day') > 2
-                ? dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss')
-                : dayjs(data.updatedAt).fromNow()}
+              {`${dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                data.updatedAt
+              ).fromNow()})`}
             </span>
           }
           renderItem={(item) => {
@@ -131,11 +131,10 @@ function Index() {
                 key={item._id}
                 actions={[
                   <IconText icon={<EyeOutlined />} text={item.views} key="preview" />,
-                  <Tooltip title="点赞👍">
+                  <Tooltip title="点赞👍" key="like">
                     <IconText
                       icon={<LikeOutlined />}
                       text={item?.starList?.length}
-                      key="like"
                       style={{
                         cursor: 'pointer',
                         color: isStared ? 'red' : ''
@@ -160,9 +159,9 @@ function Index() {
                       <span style={{ fontSize: 13 }}>作者：{item?.author?.nickname}</span>
                       <span>
                         创建时间：
-                        {dayjs().diff(data.createdAt, 'day') > 2
-                          ? dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')
-                          : dayjs(data.createdAt).fromNow()}
+                        {`${dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                          data.createdAt
+                        ).fromNow()})`}
                       </span>
                       <span>
                         {item?.tag?.split(',')?.map((i) => (
@@ -203,15 +202,14 @@ function Index() {
             renderItem={(item) => (
               <List.Item
                 actions={[
-                  <Tooltip title="点赞👍">
-                    <IconText
-                      icon={<LikeOutlined />}
-                      text={0}
-                      key="likeComment"
-                      onClick={() => {}}
-                    />
+                  <Tooltip title="点赞👍" key="likeComment">
+                    <IconText icon={<LikeOutlined />} text={0} onClick={() => {}} />
                   </Tooltip>,
-                  <Popconfirm title="删除当前评论" onConfirm={async () => deleteComment(item._id)}>
+                  <Popconfirm
+                    title="删除当前评论"
+                    key="deleteComment"
+                    onConfirm={async () => deleteComment(item._id)}
+                  >
                     {item.reply_user_id._id === _id && (
                       <IconText
                         icon={
