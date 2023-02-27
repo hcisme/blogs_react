@@ -3,3 +3,7 @@ pre {
   border-radius: 8px !important;
   /* background: #f1efee !important; */
 }
+
+pre span {
+  white-space: normal;
+}
