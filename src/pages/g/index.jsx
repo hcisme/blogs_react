@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { LoginFormPage } from '@ant-design/pro-components';
 import { Alert, message, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -78,7 +78,6 @@ const Index = () => {
       message.error(loginstatusMessage);
       removeSessionStorage('loginstatusMessage');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

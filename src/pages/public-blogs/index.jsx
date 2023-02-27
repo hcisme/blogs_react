@@ -23,7 +23,9 @@ const Index = () => {
           formRef.current.resetFields();
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

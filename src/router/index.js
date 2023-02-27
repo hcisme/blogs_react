@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Result } from 'antd';
 import { UserSwitchOutlined, FileProtectOutlined, FormOutlined } from '@ant-design/icons';
 import { Navigate } from 'react-router-dom';
@@ -32,29 +32,29 @@ const router = [
     children: [
       {
         index: true,
-        path: `/user-manage`,
+        path: '/user-manage',
         element: <UserManage />,
         name: '用户管理',
         icon: <UserSwitchOutlined />
       },
       {
-        path: `/article-manage`,
+        path: '/article-manage',
         element: <ArticleMange />,
         name: '文章管理',
         icon: <FileProtectOutlined />
       },
       {
-        path: `/public-blog`,
+        path: '/public-blog',
         element: <PublicBlog />,
         name: '发布博客',
         icon: <FormOutlined />
       },
       {
-        path: `/edit-article/:id`,
+        path: '/edit-article/:id',
         element: <EditArticle />
       },
       {
-        path: `/preview-article/:id`,
+        path: '/preview-article/:id',
         element: <PreviewArticle />
       }
     ].map((item) => ({
