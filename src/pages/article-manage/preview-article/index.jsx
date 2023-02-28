@@ -17,12 +17,12 @@ import dayjs from '../../../utils/dayjs';
 import { EyeOutlined, MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
-import { useRequest } from 'ahooks';
+import { useDebounceFn, useRequest } from 'ahooks';
 import 'quill-emoji/dist/quill-emoji.css';
 import useMessage from '@/hooks/useMessage';
 import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
-import { isStarFn } from '@/services/star';
+import { getStarList, isStarFn } from '@/services/star';
 import CodeHighLight from '@/component/CodeHighLight';
 import { tagsColorList } from '@/utils/dictionary';
 import { getLocalStorage } from '@/utils/localStorage';
@@ -43,11 +43,8 @@ function Index() {
   const [mode, setMode] = useState(false);
   const { _id } = getLocalStorage('userInfo');
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
-  const {
-    loading,
-    data = {},
-    runAsync: getArticleInfoRunAsync
-  } = useRequest(async () => {
+  // 获取文章信息
+  const { loading, data = {} } = useRequest(async () => {
     const { data = {}, success } = await getArticleInfoById({ id });
     if (success) {
       return data.data;
@@ -55,6 +52,7 @@ function Index() {
     message.error(data.message);
   });
 
+  // 评论列表接口;
   const {
     loading: commentLoading,
     data: { hasMore, total: commentTotal = 0 } = {},
@@ -70,20 +68,27 @@ function Index() {
       return { hasMore, total };
     }
     message.error(data.message);
-  }, {});
+  });
 
-  const starFn = async ({ isStared, starId }) => {
-    const response = await isStarFn({ aid: id, starId, isStar: isStared ? 0 : 1 });
-    const { data: { message } = {} } = response;
-    messagePro({
-      response,
-      errorText: message,
-      successText: message,
-      onSuccess: () => {
-        getArticleInfoRunAsync();
-      }
-    });
-  };
+  // 点赞列表接口
+  const { data: { data: { response: starList = [] } = {} } = {}, runAsync: getStarListRunAsync } =
+    useRequest(() => getStarList({ id }));
+
+  const { run: starRun } = useDebounceFn(
+    async ({ isStared, starId }) => {
+      const response = await isStarFn({ aid: id, starId, isStar: isStared ? 0 : 1 });
+      const { data: { message } = {} } = response;
+      messagePro({
+        response,
+        errorText: message,
+        successText: message,
+        onSuccess: () => {
+          getStarListRunAsync();
+        }
+      });
+    },
+    { wait: 500 }
+  );
 
   const deleteComment = async (cid) => {
     const response = await deleteCommentByCid({ cid });
@@ -126,8 +131,8 @@ function Index() {
             </span>
           }
           renderItem={(item) => {
-            const isStared = !!item?.starList?.find((i) => i.star_user_id === _id)?.isStar;
-            const starId = item?.starList?.find((i) => i.star_user_id === _id)?._id;
+            const { isStar: isStared, _id: starId } =
+              starList.find((i) => i?.star_user_id?._id === _id) || {};
             return (
               <List.Item
                 key={item._id}
@@ -136,13 +141,13 @@ function Index() {
                   <Tooltip title="点赞👍" key="like">
                     <IconText
                       icon={<LikeOutlined />}
-                      text={item?.starList?.length}
+                      text={starList.length}
                       style={{
                         cursor: 'pointer',
                         color: isStared ? 'red' : ''
                       }}
                       onClick={() => {
-                        starFn({ isStared, starId });
+                        starRun({ isStared, starId });
                       }}
                     />
                   </Tooltip>,
