@@ -4,14 +4,15 @@ import { UserSwitchOutlined, FileProtectOutlined, FormOutlined } from '@ant-desi
 import { Navigate } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 
-const Layout = lazy(() => import('../layout'));
-const Login = lazy(() => import('../pages/g'));
-const UserManage = lazy(() => import('../pages/user-manage'));
-const ArticleMange = lazy(() => import('../pages/article-manage'));
-const PublicBlog = lazy(() => import('../pages/public-blogs'));
-const EditArticle = lazy(() => import('../pages/article-manage/edit-article'));
-const PreviewArticle = lazy(() => import('../pages/article-manage/preview-article'));
-const Redirecting = lazy(() => import('../pages/redirecting'));
+const Layout = lazy(() => import('@/layout'));
+const Login = lazy(() => import('@/pages/g'));
+const UserManage = lazy(() => import('@/pages/user-manage'));
+const ArticleMange = lazy(() => import('@/pages/article-manage'));
+const PublicBlog = lazy(() => import('@/pages/public-blogs'));
+const Test = lazy(() => import('@/pages/test'));
+const EditArticle = lazy(() => import('@/pages/article-manage/edit-article'));
+const PreviewArticle = lazy(() => import('@/pages/article-manage/preview-article'));
+const Redirecting = lazy(() => import('@/pages/redirecting'));
 
 const router = [
   {
@@ -47,6 +48,12 @@ const router = [
         path: '/public-blog',
         element: <PublicBlog />,
         name: '发布博客',
+        icon: <FormOutlined />
+      },
+      {
+        path: '/test',
+        element: <Test />,
+        name: '测试页✌',
         icon: <FormOutlined />
       },
       {
