@@ -8,7 +8,6 @@ import {
   Popconfirm,
   Skeleton,
   Space,
-  Switch,
   Tag,
   Tooltip
 } from 'antd';
@@ -18,12 +17,11 @@ import { EyeOutlined, MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 import { useDebounceFn, useRequest } from 'ahooks';
-import 'quill-emoji/dist/quill-emoji.css';
 import useMessage from '@/hooks/useMessage';
 import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
 import { getStarList, isStarFn } from '@/services/star';
-import CodeHighLight from '@/component/CodeHighLight';
+import Article from '@/component/Article';
 import { tagsColorList } from '@/utils/dictionary';
 import { getLocalStorage } from '@/utils/localStorage';
 
@@ -40,7 +38,6 @@ function Index() {
   const { id } = useParams();
   const messagePro = useMessage();
   const [commentList, setCommentList] = useState([]);
-  const [mode, setMode] = useState(false);
   const { _id } = getLocalStorage('userInfo');
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
   // 获取文章信息
@@ -157,14 +154,6 @@ function Index() {
                     key="commentTotal"
                   />
                 ]}
-                extra={
-                  <Switch
-                    size="small"
-                    unCheckedChildren="dark"
-                    checkedChildren="light"
-                    onChange={setMode}
-                  />
-                }
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item?.author?.headImgUrl} size="large" />}
@@ -189,7 +178,7 @@ function Index() {
                   }
                 />
                 {/* 正文 */}
-                <CodeHighLight html={item.content} mode={mode} />
+                {!!item.content && <Article html={item.content} />}
               </List.Item>
             );
           }}

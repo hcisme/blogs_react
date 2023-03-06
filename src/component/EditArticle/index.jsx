@@ -1,47 +1,9 @@
 import React, { useRef } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd';
 import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import quillEmoji from 'quill-emoji';
-import 'quill-emoji/dist/quill-emoji.css';
 import { getLocalStorage } from '@/utils/localStorage';
 import { languageTagList } from '@/utils/dictionary';
-
-const { EmojiBlot, ShortNameEmoji, ToolbarEmoji, TextAreaEmoji } = quillEmoji;
-
-Quill.register(
-  {
-    'formats/emoji': EmojiBlot,
-    'modules/emoji-shortname': ShortNameEmoji,
-    'modules/emoji-toolbar': ToolbarEmoji,
-    'modules/emoji-textarea': TextAreaEmoji
-  },
-  true
-);
-
-const modules = {
-  toolbar: {
-    container: [
-      ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote', 'code-block'],
-      [{ header: 1 }, { header: 2 }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }],
-      [{ indent: '-1' }, { indent: '+1' }],
-      [{ direction: 'rtl' }],
-      [{ size: ['small', false, 'large', 'huge'] }], //字体设置
-      [{ color: [] }],
-      [{ background: [] }],
-      [{ font: [] }],
-      [{ align: [] }],
-      ['link', 'image'], // a链接和图片的显示
-      ['emoji']
-    ]
-  },
-  'emoji-toolbar': true, //是否展示出来
-  'emoji-shortname': true
-};
+import Editor from '@/component/Editor';
 
 function Index(props) {
   const { loading, initialValues = {}, onOk } = props;
@@ -98,7 +60,7 @@ function Index(props) {
         </Col>
         <Col span={24}>
           <ProForm.Item label="内容" name="content" rules={[{ required: true }]}>
-            <ReactQuill theme="snow" placeholder="请输入文章主体" modules={modules} />
+            <Editor />
           </ProForm.Item>
         </Col>
       </Row>

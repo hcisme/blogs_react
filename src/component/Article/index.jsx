@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+// #region markdown-it 插件
 import emoji from 'markdown-it-emoji';
 import subscript from 'markdown-it-sub';
 import superscript from 'markdown-it-sup';
@@ -9,10 +9,18 @@ import deflist from 'markdown-it-deflist';
 import abbreviation from 'markdown-it-abbr';
 import insert from 'markdown-it-ins';
 import mark from 'markdown-it-mark';
-// import tasklists from 'markdown-it-task-lists';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-light.css';
+import taskList from 'markdown-it-task-lists';
+// #endRegion
+import 'highlight.js/styles/agate.css';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
 import 'react-markdown-editor-lite/lib/index.css';
+import './index.css';
+
+hljs.registerLanguage('javascript', javascript);
+hljs.configure({
+  ignoreUnescapedHTML: true
+});
 
 const mdParser = new MarkdownIt({
   html: true,
@@ -26,7 +34,7 @@ const mdParser = new MarkdownIt({
         console.log(__);
       }
     }
-    return ''; // use external default escaping
+    return '';
   }
 })
   .use(emoji)
@@ -36,33 +44,20 @@ const mdParser = new MarkdownIt({
   .use(deflist)
   .use(abbreviation)
   .use(insert)
-  .use(mark);
-// .use(tasklists, { enabled: this.taskLists });
+  .use(mark)
+  .use(taskList);
 
-const Index = () => {
-  // const [value, setValue] = useState('**qweqweqw**\n\n');
+function Index(props) {
+  const { html } = props;
+  const ref = useRef({});
 
-  return (
-    <MdEditor
-      style={{ minHeight: 'calc(100vh - 160px)' }}
-      // value={value}
-      renderHTML={(text) => {
-        console.log(text);
-        return mdParser.render(text);
-      }}
-      config={{
-        view: {
-          menu: true,
-          md: true,
-          html: true
-        }
-      }}
-      // onChange={({ text }) => {
-      //   console.log({ text });
-      //   setValue(text);
-      // }}
-    />
-  );
-};
+  useEffect(() => {
+    ref?.current?.querySelectorAll('pre').forEach((element) => {
+      hljs.highlightElement(element);
+    });
+  }, []);
+
+  return <div dangerouslySetInnerHTML={{ __html: mdParser.render(html) }} ref={ref} />;
+}
 
 export default Index;
