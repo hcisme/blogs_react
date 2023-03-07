@@ -26,6 +26,9 @@ const mdParser = new MarkdownIt({
   html: true,
   linkify: true,
   typographer: true,
+  xhtmlOut: true,
+  breaks: true,
+  langPrefix: 'language-',
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
@@ -57,7 +60,13 @@ function Index(props) {
     });
   }, []);
 
-  return <div dangerouslySetInnerHTML={{ __html: mdParser.render(html) }} ref={ref} />;
+  return (
+    <div
+      className="custom-html-style"
+      dangerouslySetInnerHTML={{ __html: mdParser.render(html) }}
+      ref={ref}
+    />
+  );
 }
 
 export default Index;

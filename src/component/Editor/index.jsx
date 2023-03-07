@@ -29,6 +29,9 @@ const mdParser = new MarkdownIt({
   html: true,
   linkify: true,
   typographer: true,
+  xhtmlOut: true,
+  breaks: true,
+  langPrefix: 'language-',
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
