@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { LoginFormPage } from '@ant-design/pro-components';
-import { Alert, message, Tabs } from 'antd';
+import { Alert, Divider, message, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Login from './login';
 import Register from './register';
@@ -86,7 +86,14 @@ const Index = () => {
       logo={logo}
       title="博客后台管理"
       subTitle="---chihaicheng"
-      actions={false}
+      actions={
+        <div style={{ textAlign: 'center' }}>
+          <Divider />
+          <a href="https://beian.miit.gov.cn/" target="_black" style={{ fontSize: 12 }}>
+            辽ICP备 2021010497号-2
+          </a>
+        </div>
+      }
       message={errorText && <Alert type="warning" showIcon message={errorText} />}
       layout="horizontal"
       labelAlign="right"

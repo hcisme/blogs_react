@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Avatar,
+  Card,
   Divider,
   FloatButton,
   List,
@@ -111,13 +112,12 @@ function Index() {
   };
 
   return (
-    <>
+    <Card>
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <List
           loading={loading}
           itemLayout="vertical"
           size="large"
-          bordered
           dataSource={[data]}
           footer={
             <span>
@@ -247,7 +247,7 @@ function Index() {
       </Space>
 
       <FloatButton.BackTop />
-    </>
+    </Card>
   );
 }
 
