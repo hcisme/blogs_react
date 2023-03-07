@@ -37,11 +37,19 @@ const onPreview = async (file) => {
 };
 
 const Index = (props) => {
-  const { id, value = [], onChange } = props;
+  const { id, shape = 'rect', aspect = 1 / 1, text, value = [], onChange } = props;
 
   return (
     <span id={id}>
-      <ImgCrop rotate grid shape="round" modalTitle="修剪图片" modalOk="确定" modalCancel="取消">
+      <ImgCrop
+        rotate
+        grid
+        shape={shape}
+        aspect={aspect}
+        modalTitle="修剪图片"
+        modalOk="确定"
+        modalCancel="取消"
+      >
         <Upload
           maxCount={1}
           accept=".png,.jpg,.jpeg,.gif"
@@ -51,10 +59,10 @@ const Index = (props) => {
             customRequest({ option, onChange });
           }}
           // showUploadList
-          onRemove={() => onChange([])}
+          onRemove={() => onChange()}
           onPreview={onPreview}
         >
-          上传头像
+          {text}
         </Upload>
       </ImgCrop>
     </span>

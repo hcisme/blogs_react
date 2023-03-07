@@ -3,6 +3,7 @@ import { Avatar, Button, Col, Row, Space } from 'antd';
 import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { getLocalStorage } from '@/utils/localStorage';
 import { languageTagList } from '@/utils/dictionary';
+import ClipAvatar from '@/component/ClipAvatar';
 import Editor from '@/component/Editor';
 
 function Index(props) {
@@ -14,10 +15,14 @@ function Index(props) {
     <ProForm
       formRef={formRef}
       submitter={false}
-      initialValues={{ ...initialValues, tag: initialValues?.tag?.split(',') }}
+      initialValues={{
+        ...initialValues,
+        tag: initialValues?.tag?.split(','),
+        coverImg: initialValues.coverImg ? [{ url: initialValues.coverImg }] : []
+      }}
     >
       <Row>
-        <Col span={24}>
+        <Col span={12}>
           <ProForm.Item label="发布者">
             <Space align="end">
               <Avatar shape="square" size="large" src={headImgUrl} />
@@ -28,6 +33,11 @@ function Index(props) {
                 <span>昵称: {nickname}</span>
               </Space>
             </Space>
+          </ProForm.Item>
+        </Col>
+        <Col span={12}>
+          <ProForm.Item label="封面" name="coverImg">
+            <ClipAvatar text="选择文章封面" aspect={16 / 9} />
           </ProForm.Item>
         </Col>
         <Col span={24}>

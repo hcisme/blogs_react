@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { LockOutlined, UserOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
-import ClipAvatar from '../_compoents/ClipAvatar';
+import ClipAvatar from '@/component/ClipAvatar';
 
 function Index() {
   return (
@@ -55,7 +55,7 @@ function Index() {
           }
         ]}
       >
-        <ClipAvatar />
+        <ClipAvatar shape="round" text="上传头像" />
       </ProForm.Item>
     </>
   );

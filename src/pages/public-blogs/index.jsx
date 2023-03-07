@@ -4,6 +4,7 @@ import { useRequest } from 'ahooks';
 import EditArticle from '@/component/EditArticle';
 import useMessage from '@/hooks/useMessage';
 import { publicArticles } from '@/services/articles';
+import { uploadImg } from '@/services/upload';
 
 const Index = () => {
   const messagePro = useMessage();
@@ -16,7 +17,14 @@ const Index = () => {
   const submit = async ({ formRef }) => {
     try {
       const values = await formRef.current.validateFields();
-      const response = await publicArticlesRunAsync(values);
+      let coverImg;
+      if (values.coverImg) {
+        const { data: { data: img } = {} } = await uploadImg({
+          file: values.coverImg[0].file
+        });
+        coverImg = img;
+      }
+      const response = await publicArticlesRunAsync({ ...values, coverImg });
       messagePro({
         response,
         onSuccess: () => {
