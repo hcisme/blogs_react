@@ -11,9 +11,9 @@ import insert from 'markdown-it-ins';
 import mark from 'markdown-it-mark';
 import taskList from 'markdown-it-task-lists';
 // #endRegion
-import 'highlight.js/styles/agate.css';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
+import 'highlight.js/styles/agate.css';
 import 'react-markdown-editor-lite/lib/index.css';
 import './index.css';
 
