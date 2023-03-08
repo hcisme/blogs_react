@@ -47,14 +47,14 @@ const Index = () => {
 
   const register = async (values) => {
     setErrorText('');
-    const { data: { code, data, message: uploadMsg } = {} } = await uploadImg({
+    const { imgUrl, code, uploadMsg } = await uploadImg({
       file: values.regist.headImgUrl[0].file
     });
     if (code === 200) {
       const { regist: { password } = {} } = values;
       const { data: registerInfo } = await userRegister({
         ...values.regist,
-        headImgUrl: data,
+        headImgUrl: imgUrl,
         password: encrypt(password)
       });
       if (registerInfo.code === 200) {

@@ -51,15 +51,11 @@ const Index = (props) => {
   const messagePro = useMessage();
 
   const handleImageUpload = async (file, callback) => {
-    const {
-      data: { data: imgUrl } = {},
-      data = {},
-      success
-    } = await uploadImg({
+    const { imgUrl, success } = await uploadImg({
       file
     });
     messagePro({
-      response: { success, data },
+      response: { success },
       successText: '上传成功',
       onSuccess: () => {
         callback(imgUrl);

@@ -19,10 +19,10 @@ const Index = () => {
       const values = await formRef.current.validateFields();
       let coverImg;
       if (values?.coverImg?.length) {
-        const { data: { data: img } = {} } = await uploadImg({
+        const { imgUrl } = await uploadImg({
           file: values.coverImg[0].file
         });
-        coverImg = img;
+        coverImg = imgUrl;
       }
       const response = await publicArticlesRunAsync({ ...values, coverImg });
       messagePro({
