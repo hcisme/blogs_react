@@ -18,7 +18,7 @@ const Index = () => {
     try {
       const values = await formRef.current.validateFields();
       let coverImg;
-      if (values.coverImg) {
+      if (values?.coverImg?.length) {
         const { data: { data: img } = {} } = await uploadImg({
           file: values.coverImg[0].file
         });
