@@ -1,3 +1,4 @@
+/* blockquote 块样式 */
 .custom-blockquote-style blockquote {
   background: #f7f9fa;
   border-left: 10px solid #d6dbdf;
@@ -17,5 +18,39 @@
 }
 
 .custom-blockquote-style pre span {
+  white-space: normal;
+}
+
+/* 表格 */
+.custom-table-style table {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid #f6f6f6;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.custom-table-style table tr {
+  border: 1px solid #efefef;
+}
+
+.custom-table-style table th {
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #efefef;
+  padding: 10px 6px;
+  background-color: #f5f7fa;
+  word-break: break-word;
+}
+
+.custom-table-style table td {
+  border: 1px solid #efefef;
+  text-align: left;
+  padding: 10px 15px;
+  word-break: break-word;
+  min-width: 60px;
+  word-wrap: break-word;
   white-space: normal;
 }

@@ -24,14 +24,14 @@ hljs.configure({
 const mdParser = new MarkdownIt({
   html: true,
   linkify: true,
-  typographer: true,
+  typographer: false,
   xhtmlOut: true,
   breaks: true,
   langPrefix: 'language-',
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlight(lang, str).value;
+        return hljs.highlight(str, { language: lang }).value;
       } catch (__) {
         console.log(__);
       }
@@ -54,14 +54,14 @@ function Index(props) {
   const ref = useRef({});
 
   useEffect(() => {
-    ref?.current?.querySelectorAll('pre').forEach((element) => {
+    ref?.current?.querySelectorAll('pre, code').forEach((element) => {
       hljs.highlightElement(element);
     });
   }, []);
 
   return (
     <div
-      className="custom-blockquote-style"
+      className="custom-blockquote-style custom-table-style"
       dangerouslySetInnerHTML={{ __html: mdParser.render(html) }}
       ref={ref}
     />
