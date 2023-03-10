@@ -43,11 +43,11 @@ function Index() {
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
   // 获取文章信息
   const { loading, data = {} } = useRequest(async () => {
-    const { data = {}, success } = await getArticleInfoById({ id });
+    const { data = {}, success, message: info } = await getArticleInfoById({ id });
     if (success) {
-      return data.data;
+      return data;
     }
-    message.error(data.message);
+    message.error(info);
   });
 
   // 评论列表接口;
@@ -56,7 +56,13 @@ function Index() {
     data: { hasMore, total: commentTotal = 0 } = {},
     runAsync: getCommentListRunAsync
   } = useRequest(async (current = 1, pageSize = 20) => {
-    const { data: { data: cList = [], hasMore, total } = {}, success } = await getCommentList({
+    const {
+      data: cList = [],
+      hasMore,
+      total,
+      success,
+      message
+    } = await getCommentList({
       aid: id,
       current,
       pageSize
@@ -65,17 +71,18 @@ function Index() {
       setCommentList((prev) => uniqBy([...prev, ...cList], '_id'));
       return { hasMore, total };
     }
-    message.error(data.message);
+    message.error(message);
   });
 
   // 点赞列表接口
-  const { data: { data: { response: starList = [] } = {} } = {}, runAsync: getStarListRunAsync } =
-    useRequest(() => getStarList({ id }));
+  const { data: { response: starList = [] } = {}, runAsync: getStarListRunAsync } = useRequest(() =>
+    getStarList({ id })
+  );
 
   const { run: starRun } = useDebounceFn(
     async ({ isStared, starId }) => {
       const response = await isStarFn({ aid: id, starId, isStar: isStared ? 0 : 1 });
-      const { data: { message } = {} } = response;
+      const { message } = response;
       messagePro({
         response,
         errorText: message,
@@ -90,7 +97,7 @@ function Index() {
 
   const deleteComment = async (cid) => {
     const response = await deleteCommentByCid({ cid });
-    const { data: { message } = {}, success } = response;
+    const { message, success } = response;
     messagePro({
       response,
       errorText: message,

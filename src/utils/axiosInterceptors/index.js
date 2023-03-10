@@ -2,9 +2,6 @@ import { message } from 'antd';
 import axios from 'axios';
 import { getLocalStorage, setSessionStorage } from '../localStorage';
 
-// axios.defaults.baseURL = 'http://81.68.248.232:3002';
-// "homepage": ".",
-
 // 请求拦截器
 axios.interceptors.request.use(
   (config) => {
@@ -24,7 +21,7 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
   (config) => {
-    return { ...config, success: true };
+    return { ...config, ...config.data, success: true };
   },
   (error) => {
     if (error.response?.status === 401) {

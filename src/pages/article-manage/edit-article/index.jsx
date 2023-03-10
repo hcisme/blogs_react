@@ -12,7 +12,7 @@ const Index = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { loading, data: { data: { data: articleInfo } = {} } = {} } = useRequest(() =>
+  const { loading, data: { data: articleInfo } = {} } = useRequest(() =>
     getArticleInfoById({ id })
   );
 
@@ -25,12 +25,15 @@ const Index = () => {
     try {
       const values = await formRef.current.validateFields();
       let coverImg = '';
-      if (values?.coverImg?.length) {
+      if (values.coverImg?.[0]?.url) {
+        coverImg = values.coverImg[0].url;
+      } else {
         const { imgUrl } = await uploadImg({
           file: values.coverImg[0].file
         });
         coverImg = imgUrl;
       }
+
       const response = await saveArticlesRunAsync({ ...values, coverImg });
       messagePro({
         response,

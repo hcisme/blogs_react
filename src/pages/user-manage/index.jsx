@@ -91,16 +91,11 @@ const Index = () => {
       search={{
         optionRender: (searchConfig, props, defaultDom) => defaultDom.reverse()
       }}
-      request={async (params) => {
-        const { success, data: { data = [], total } = {} } = await getAllUserList({
+      request={async (params) =>
+        getAllUserList({
           params
-        });
-        return {
-          success,
-          data,
-          total
-        };
-      }}
+        })
+      }
     />
   );
 };

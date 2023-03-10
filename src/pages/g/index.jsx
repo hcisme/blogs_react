@@ -25,7 +25,12 @@ const Index = () => {
   const login = async (values) => {
     setErrorText('');
     const { login: { username, password } = {} } = values;
-    const { data: { code, token, userInfo, message: info } = {} } = await userLogin({
+    const {
+      code,
+      token,
+      userInfo,
+      message: info
+    } = await userLogin({
       username,
       password: encrypt(password)
     });

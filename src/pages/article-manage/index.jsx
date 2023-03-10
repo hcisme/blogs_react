@@ -127,17 +127,12 @@ const Index = () => {
       actionRef={actionRef}
       columnEmptyText={false}
       rowKey="_id"
-      request={async (params) => {
-        const { success, data: { data = [], total } = {} } = await getTargetUserArticles({
+      request={async (params) =>
+        getTargetUserArticles({
           uid: _id,
           params
-        });
-        return {
-          success,
-          data,
-          total
-        };
-      }}
+        })
+      }
       search={{
         optionRender: (searchConfig, props, defaultDom) => defaultDom.reverse()
       }}
