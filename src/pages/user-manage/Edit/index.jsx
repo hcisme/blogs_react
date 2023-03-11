@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { message } from 'antd';
 import { DrawerForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { updateUserInfo } from '@/services/user';
-import useMessage from '@/hooks/useMessage';
+import { useMessage } from '@/hooks';
 import { getLocalStorage, setLocalStorage } from '@/utils/localStorage';
 
 const Index = (props) => {

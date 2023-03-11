@@ -18,7 +18,7 @@ import { EyeOutlined, MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 import { useDebounceFn, useRequest } from 'ahooks';
-import useMessage from '@/hooks/useMessage';
+import { useMessage } from '@/hooks';
 import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
 import { getStarList, isStarFn } from '@/services/star';

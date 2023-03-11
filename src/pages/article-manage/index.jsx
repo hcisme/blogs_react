@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { deleteTargetArticle, getTargetUserArticles } from '@/services/articles';
 import { getLocalStorage } from '@/utils/localStorage';
-import useMessage from '@/hooks/useMessage';
+import { useMessage } from '@/hooks';
 
 const Index = () => {
   const actionRef = useRef({});

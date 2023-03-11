@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import { useRequest } from 'ahooks';
 import EditArticle from '@/component/EditArticle';
-import useMessage from '@/hooks/useMessage';
+import { useMessage } from '@/hooks';
 import { publicArticles } from '@/services/articles';
 import { uploadImg } from '@/services/upload';
 

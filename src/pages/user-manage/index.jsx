@@ -3,7 +3,7 @@ import { Popconfirm, Space } from 'antd';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import useMessage from '@/hooks/useMessage';
+import { useMessage } from '@/hooks';
 import { deleteTargetUser, getAllUserList } from '@/services/user';
 import { getLocalStorage } from '@/utils/localStorage';
 import DrawerForm from './Edit';
