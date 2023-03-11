@@ -59,7 +59,7 @@ const Index = () => {
               {record?._id === _id ? <EyeOutlined /> : <EditOutlined />}
             </a>
           </DrawerForm>
-          {record?._id !== _id && (
+          {record?._id !== _id && record?.role === 2 && (
             <Popconfirm
               title="确认删除此用户吗"
               onConfirm={async () => {

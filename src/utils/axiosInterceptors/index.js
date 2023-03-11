@@ -28,19 +28,15 @@ axios.interceptors.response.use(
       message.error(error.response.data?.message);
       setSessionStorage({ key: 'loginstatusMessage', value: error.response.data?.message });
       window.location.replace('/g');
+      return;
     }
-    if (error.response?.status !== 200) {
-      return {
-        ...error,
-        ...error.response,
-        success: false,
-        data: {
-          ...error.response.data,
-          message: error.response.data?.message || '服务器出错了，请联系管理员。'
-        }
-      };
-    }
-    return { ...error, ...error.response, success: false };
+    return {
+      ...error,
+      ...error.response,
+      success: false,
+      ...error.response.data,
+      message: error.response.data?.message || '未知错误，请联系管理员。'
+    };
   }
 );
 

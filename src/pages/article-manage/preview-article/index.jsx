@@ -136,7 +136,7 @@ function Index() {
           }
           renderItem={(item) => {
             const { isStar: isStared, _id: starId } =
-              starList.find((i) => i?.star_user_id?._id === _id) || {};
+              starList.find((i) => i?.star_user?._id === _id) || {};
             return (
               <List.Item
                 key={item._id}
@@ -224,7 +224,7 @@ function Index() {
                     key="deleteComment"
                     onConfirm={async () => deleteComment(item._id)}
                   >
-                    {item.reply_user_id._id === _id && (
+                    {item.reply_user._id === _id && (
                       <IconText
                         icon={
                           <a style={{ color: 'red' }}>
@@ -238,11 +238,11 @@ function Index() {
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.reply_user_id?.headImgUrl} />}
-                  title={<a>{item.reply_user_id?.nickname}</a>}
+                  avatar={<Avatar src={item.reply_user?.headImgUrl} />}
+                  title={<a>{item.reply_user?.nickname}</a>}
                   description={
                     <Space direction="vertical" style={{ width: '100%' }}>
-                      <span style={{ fontSize: 12 }}>{dayjs(data.createdAt).fromNow()}</span>
+                      <span style={{ fontSize: 12 }}>{dayjs(item.createdAt).fromNow()}</span>
                       <span>{item?.content}</span>
                     </Space>
                   }
