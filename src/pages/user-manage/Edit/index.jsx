@@ -13,11 +13,11 @@ const Index = (props) => {
 
   const save = async (values) => {
     const response = await updateUserInfo({ ...values, id: record._id });
-    const { data: { data = {} } = {} } = response;
+    const { data = {}, isLogin } = response;
     messagePro({
       response,
       onSuccess: () => {
-        if (data.isLogin) {
+        if (isLogin) {
           setLocalStorage('userInfo', { ...userInfo, ...data });
           message.success('身份信息已更新');
           window.location.reload();

@@ -12,7 +12,7 @@ const Index = () => {
   const actionRef = useRef({});
   const navigate = useNavigate();
   const messagePro = useMessage();
-  const { _id } = getLocalStorage('userInfo');
+  const { _id } = getLocalStorage('userInfo') || {};
 
   const columns = [
     {

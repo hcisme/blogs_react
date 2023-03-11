@@ -39,7 +39,7 @@ function Index() {
   const { id } = useParams();
   const messagePro = useMessage();
   const [commentList, setCommentList] = useState([]);
-  const { _id } = getLocalStorage('userInfo');
+  const { _id } = getLocalStorage('userInfo') || {};
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
   // 获取文章信息
   const { loading, data = {} } = useRequest(async () => {

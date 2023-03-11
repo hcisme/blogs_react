@@ -16,7 +16,6 @@ function Index() {
       } else {
         window.location.replace('/g');
       }
-      return;
     } else {
       window.location.replace('/g');
     }

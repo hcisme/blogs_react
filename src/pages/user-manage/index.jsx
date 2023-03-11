@@ -10,7 +10,7 @@ import DrawerForm from './Edit';
 
 const Index = () => {
   const actionRef = useRef({});
-  const { _id } = getLocalStorage('userInfo');
+  const { _id } = getLocalStorage('userInfo') || {};
   const messagePro = useMessage();
 
   const columns = [
