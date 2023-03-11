@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate, Link, Outlet } from 'react-router-dom';
+import { useNavigate, Link, Outlet, Navigate } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
 import route from '@/router';
+import logo from '@/assets/images/Octocat.png';
+import { getLocalStorage } from '@/utils/localStorage';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
-import logo from '@/assets/images/Octocat.png';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Index = () => {
                 }}
                 pageHeaderRender={false}
               >
-                <Outlet />
+                {getLocalStorage('token') ? <Outlet /> : <Navigate to="/g" />}
               </PageContainer>
             );
           }}
