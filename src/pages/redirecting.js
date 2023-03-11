@@ -10,7 +10,7 @@ function Index() {
 
   const getUserInfo = async () => {
     if (token && _id) {
-      const { success, data: { data: { _id: id } = {} } = {} } = await getLastUserInfo();
+      const { success, data: { _id: id } = {} } = await getLastUserInfo();
       if (success && id) {
         window.location.replace('/user-manage');
       } else {
