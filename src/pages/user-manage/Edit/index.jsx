@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { DrawerForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { updateUserInfo } from '@/services/user';
 import { useMessage } from '@/hooks';
-import { getLocalStorage, setLocalStorage } from '@/utils/localStorage';
+import { getLocalStorage, setLocalStorage } from '@/utils';
 
 const Index = (props) => {
   const { children, title, disabled = false, record = {}, onOk } = props;

@@ -1,4 +1,4 @@
-import axios from '@/utils/axiosInterceptors';
+import { axios } from '@/utils';
 
 export const getStarList = (params) => {
   return axios.get(`/api/star/articles/${params.id}`);

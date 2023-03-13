@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { LockOutlined, UserOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
-import ClipAvatar from '@/component/ClipAvatar';
+import { ClipAvatar } from '@/components';
 
 function Index() {
   return (

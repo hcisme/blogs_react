@@ -1,4 +1,4 @@
-import axios from '@/utils/axiosInterceptors';
+import { axios } from '@/utils';
 
 export const publicArticles = (params) => {
   return axios.post('/api/articles', params);

@@ -4,14 +4,14 @@ import { Popconfirm, Space, Tag, Tooltip } from 'antd';
 import { ProTable } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { deleteTargetArticle, getTargetUserArticles } from '@/services/articles';
-import { getLocalStorage } from '@/utils/localStorage';
-import { useMessage } from '@/hooks';
+import { getTargetUserArticles } from '@/services/articles';
+import { getLocalStorage } from '@/utils';
+import { eSign } from '@/components';
 
 const Index = () => {
   const actionRef = useRef({});
   const navigate = useNavigate();
-  const messagePro = useMessage();
+  // const messagePro = useMessage();
   const { _id } = getLocalStorage('userInfo') || {};
 
   const columns = [
@@ -100,15 +100,20 @@ const Index = () => {
             </a>
             <Popconfirm
               title="确定删除该文章吗？"
-              onConfirm={async () => {
-                const response = await deleteTargetArticle({ aid: record._id });
-                messagePro({
-                  response,
-                  onSuccess: () => {
-                    actionRef.current?.reload();
-                  }
-                });
-                return response.success;
+              onConfirm={() => {
+                eSign();
+                // {
+                //   callback: async () => {
+                //     const response = await deleteTargetArticle({ aid: record._id });
+                //     messagePro({
+                //       response,
+                //       onSuccess: () => {
+                //         actionRef.current?.reload();
+                //       }
+                //     });
+                //     return response.success;
+                //   };
+                // }
               }}
             >
               <a title="删除">

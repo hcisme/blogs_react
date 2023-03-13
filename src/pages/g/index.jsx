@@ -10,10 +10,10 @@ import {
   getSessionStorage,
   removeLocalStorage,
   removeSessionStorage,
-  setLocalStorage
-} from '@/utils/localStorage';
+  setLocalStorage,
+  encrypt
+} from '@/utils';
 import logo from '@/assets/images/Octocat.png';
-import { encrypt } from '@/utils/CryptoJS';
 
 const Index = () => {
   const [loginType, setLoginType] = useState('login');

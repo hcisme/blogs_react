@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd';
 import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import { getLocalStorage } from '@/utils/localStorage';
-import { languageTagList } from '@/utils/dictionary';
-import ClipAvatar from '@/component/ClipAvatar';
-import Editor from '@/component/Editor';
+import { getLocalStorage, languageTagList } from '@/utils';
+import { ClipAvatar, Editor } from '@/components';
 
 function Index(props) {
   const { loading, initialValues = {}, onOk } = props;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Spin } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
-import EditArticle from '@/component/EditArticle';
+import { EditArticle } from '@/components';
 import { useMessage } from '@/hooks';
 import { saveArticles, getArticleInfoById } from '@/services/articles';
 import { uploadImg } from '@/services/upload';

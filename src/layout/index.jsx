@@ -3,7 +3,7 @@ import { useNavigate, Link, Outlet, Navigate } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
 import route from '@/router';
 import logo from '@/assets/images/Octocat.png';
-import { getLocalStorage } from '@/utils/localStorage';
+import { getLocalStorage } from '@/utils';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
 

@@ -1,5 +1,5 @@
 import { omit } from 'lodash';
-import axios from '@/utils/axiosInterceptors';
+import { axios } from '@/utils';
 
 export const userRegister = async (params) => {
   return axios.post('/api/users/register', params);

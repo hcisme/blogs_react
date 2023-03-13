@@ -5,7 +5,7 @@ import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { useMessage } from '@/hooks';
 import { deleteTargetUser, getAllUserList } from '@/services/user';
-import { getLocalStorage } from '@/utils/localStorage';
+import { getLocalStorage } from '@/utils';
 import DrawerForm from './Edit';
 
 const Index = () => {

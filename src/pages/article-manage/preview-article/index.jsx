@@ -13,7 +13,7 @@ import {
   Tooltip
 } from 'antd';
 import { uniqBy } from 'lodash';
-import dayjs from '../../../utils/dayjs';
+import dayjs from 'dayjs';
 import { EyeOutlined, MessageOutlined, LikeOutlined, DeleteOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
@@ -22,9 +22,8 @@ import { useMessage } from '@/hooks';
 import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
 import { getStarList, isStarFn } from '@/services/star';
-import Article from '@/component/Article';
-import { tagsColorList } from '@/utils/dictionary';
-import { getLocalStorage } from '@/utils/localStorage';
+import { Article } from '@/components';
+import { tagsColorList, getLocalStorage } from '@/utils';
 
 const IconText = ({ icon, text, style = {}, ...rest }) => (
   <Space style={style} {...rest}>

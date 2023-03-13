@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { useToken } from '@/hooks';
 import { getLastUserInfo } from '@/services';
-import { getLocalStorage } from '@/utils/localStorage';
+import { getLocalStorage } from '@/utils';
 
 function Index() {
   const token = useToken();
