@@ -4,6 +4,7 @@ import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-componen
 import route from '@/router';
 import logo from '@/assets/images/Octocat.png';
 import { getLocalStorage } from '@/utils';
+import { ESign } from '@/components';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
 
@@ -55,7 +56,14 @@ const Index = () => {
                 }}
                 pageHeaderRender={false}
               >
-                {getLocalStorage('token') ? <Outlet /> : <Navigate to="/g" />}
+                {getLocalStorage('token') ? (
+                  <>
+                    <Outlet />
+                    <ESign />
+                  </>
+                ) : (
+                  <Navigate to="/g" />
+                )}
               </PageContainer>
             );
           }}

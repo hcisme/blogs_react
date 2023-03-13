@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { ModalForm, ProForm, ProFormText } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import PubSub from 'pubsub-js';
-import { encrypt, getLocalStorage } from '@/utils';
+import { axios, encrypt, getLocalStorage } from '@/utils';
 
 const key = 'ESign';
+let cb;
 
 function Index() {
   const [open, setOpen] = useState(false);
-  const { username, nickname } = getLocalStorage('userInfo');
+  const { username, nickname } = getLocalStorage('userInfo') || {};
 
   useEffect(() => {
     // 订阅消息
-    const token = PubSub.subscribe(key, (event, data) => {
-      console.log(event, data);
-      setOpen(true);
+    const token = PubSub.subscribe(key, (event, { visible, callback }) => {
+      setOpen(visible);
+      cb = callback;
     });
 
     return () => {
@@ -23,21 +24,45 @@ function Index() {
     };
   }, []);
 
-  const onFinish = ({ password }) => {
-    console.log(encrypt(password));
+  const onFinish = async ({ password }) => {
+    const {
+      data,
+      success,
+      message: msg
+    } = await axios.post('/api/sign', {
+      password: encrypt(password)
+    });
+    if (data && success) {
+      const success = await cb();
+      if (success) {
+        setOpen(false);
+        return success;
+      }
+      return success;
+    }
+    message.info(msg);
+    return data;
   };
 
   return (
     <ModalForm
       title="电子签名"
       open={open}
+      width={500}
       autoFocusFirstInput
+      layout="inline"
+      labelAlign="right"
       modalProps={{
-        destroyOnClose: true
+        destroyOnClose: true,
+        onCancel: () => {
+          setOpen(false);
+        }
       }}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ flex: 1 }}
       onFinish={onFinish}
     >
-      <Row gutter={16}>
+      <Row gutter={[0, 12]}>
         <Col span={24}>
           <ProForm.Item label="账号">{username}</ProForm.Item>
         </Col>
@@ -59,6 +84,6 @@ function Index() {
 
 export default Index;
 
-export const eSign = () => {
-  PubSub.publish(key, { visible: true });
+export const eSign = ({ callback }) => {
+  PubSub.publish(key, { visible: true, callback });
 };

@@ -4,14 +4,15 @@ import { Popconfirm, Space, Tag, Tooltip } from 'antd';
 import { ProTable } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getTargetUserArticles } from '@/services/articles';
+import { deleteTargetArticle, getTargetUserArticles } from '@/services/articles';
 import { getLocalStorage } from '@/utils';
 import { eSign } from '@/components';
+import { useMessage } from '@/hooks';
 
 const Index = () => {
   const actionRef = useRef({});
   const navigate = useNavigate();
-  // const messagePro = useMessage();
+  const messagePro = useMessage();
   const { _id } = getLocalStorage('userInfo') || {};
 
   const columns = [
@@ -101,19 +102,18 @@ const Index = () => {
             <Popconfirm
               title="确定删除该文章吗？"
               onConfirm={() => {
-                eSign();
-                // {
-                //   callback: async () => {
-                //     const response = await deleteTargetArticle({ aid: record._id });
-                //     messagePro({
-                //       response,
-                //       onSuccess: () => {
-                //         actionRef.current?.reload();
-                //       }
-                //     });
-                //     return response.success;
-                //   };
-                // }
+                eSign({
+                  callback: async () => {
+                    const response = await deleteTargetArticle({ aid: record._id });
+                    messagePro({
+                      response,
+                      onSuccess: () => {
+                        actionRef.current?.reload();
+                      }
+                    });
+                    return response.success;
+                  }
+                });
               }}
             >
               <a title="删除">
@@ -127,21 +127,23 @@ const Index = () => {
   ];
 
   return (
-    <ProTable
-      columns={columns}
-      actionRef={actionRef}
-      columnEmptyText={false}
-      rowKey="_id"
-      request={async (params) =>
-        getTargetUserArticles({
-          uid: _id,
-          params
-        })
-      }
-      search={{
-        optionRender: (searchConfig, props, defaultDom) => defaultDom.reverse()
-      }}
-    />
+    <>
+      <ProTable
+        columns={columns}
+        actionRef={actionRef}
+        columnEmptyText={false}
+        rowKey="_id"
+        request={async (params) =>
+          getTargetUserArticles({
+            uid: _id,
+            params
+          })
+        }
+        search={{
+          optionRender: (searchConfig, props, defaultDom) => defaultDom.reverse()
+        }}
+      />
+    </>
   );
 };
 

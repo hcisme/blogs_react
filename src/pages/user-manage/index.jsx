@@ -6,6 +6,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { useMessage } from '@/hooks';
 import { deleteTargetUser, getAllUserList } from '@/services/user';
 import { getLocalStorage } from '@/utils';
+import { eSign } from '@/components';
 import DrawerForm from './Edit';
 
 const Index = () => {
@@ -62,15 +63,19 @@ const Index = () => {
           {record?._id !== _id && record?.role === 2 && (
             <Popconfirm
               title="确认删除此用户吗"
-              onConfirm={async () => {
-                const response = await deleteTargetUser({ id: record._id });
-                messagePro({
-                  response,
-                  onSuccess: () => {
-                    actionRef.current.reload();
+              onConfirm={() => {
+                eSign({
+                  callback: async () => {
+                    const response = await deleteTargetUser({ id: record._id });
+                    messagePro({
+                      response,
+                      onSuccess: () => {
+                        actionRef.current.reload();
+                      }
+                    });
+                    return response.success;
                   }
                 });
-                return response.success;
               }}
             >
               <a title="删除">
