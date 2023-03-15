@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd';
 import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import { getLocalStorage, languageTagList } from '@/utils';
+import { baseImgUrl, getLocalStorage, languageTagList } from '@/utils';
 import { ClipAvatar, Editor } from '@/components';
 
 function Index(props) {
@@ -23,8 +23,15 @@ function Index(props) {
         <Col span={12}>
           <ProForm.Item label="发布者">
             <Space align="end">
-              <Avatar shape="square" size="large" src={headImgUrl} />
-              <Space size={0} direction="vertical">
+              <Avatar
+                shape="square"
+                size="large"
+                src={baseImgUrl + headImgUrl}
+              />
+              <Space
+                size={0}
+                direction="vertical"
+              >
                 <div>
                   <span style={{ fontSize: 13 }}>用户名:</span> <a>{username}</a>
                 </div>
@@ -34,8 +41,14 @@ function Index(props) {
           </ProForm.Item>
         </Col>
         <Col span={12}>
-          <ProForm.Item label="封面" name="coverImg">
-            <ClipAvatar text="选择文章封面" aspect={16 / 9} />
+          <ProForm.Item
+            label="封面"
+            name="coverImg"
+          >
+            <ClipAvatar
+              text="选择文章封面"
+              aspect={16 / 9}
+            />
           </ProForm.Item>
         </Col>
         <Col span={24}>
@@ -67,7 +80,11 @@ function Index(props) {
           />
         </Col>
         <Col span={24}>
-          <ProForm.Item label="内容" name="content" rules={[{ required: true }]}>
+          <ProForm.Item
+            label="内容"
+            name="content"
+            rules={[{ required: true }]}
+          >
             <Editor />
           </ProForm.Item>
         </Col>

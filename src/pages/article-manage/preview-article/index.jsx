@@ -23,10 +23,13 @@ import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
 import { getStarList, isStarFn } from '@/services/star';
 import { Article } from '@/components';
-import { tagsColorList, getLocalStorage } from '@/utils';
+import { tagsColorList, getLocalStorage, baseImgUrl } from '@/utils';
 
 const IconText = ({ icon, text, style = {}, ...rest }) => (
-  <Space style={style} {...rest}>
+  <Space
+    style={style}
+    {...rest}
+  >
     {icon}
     {text}
   </Space>
@@ -119,7 +122,11 @@ function Index() {
 
   return (
     <Card>
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
+      <Space
+        direction="vertical"
+        style={{ width: '100%' }}
+        size="large"
+      >
         <List
           loading={loading}
           itemLayout="vertical"
@@ -140,8 +147,15 @@ function Index() {
               <List.Item
                 key={item._id}
                 actions={[
-                  <IconText icon={<EyeOutlined />} text={item.views} key="preview" />,
-                  <Tooltip title="点赞👍" key="like">
+                  <IconText
+                    icon={<EyeOutlined />}
+                    text={item.views}
+                    key="preview"
+                  />,
+                  <Tooltip
+                    title="点赞👍"
+                    key="like"
+                  >
                     <IconText
                       icon={<LikeOutlined />}
                       text={starList.length}
@@ -162,7 +176,12 @@ function Index() {
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item?.author?.headImgUrl} size="large" />}
+                  avatar={
+                    <Avatar
+                      src={baseImgUrl + item?.author?.headImgUrl}
+                      size="large"
+                    />
+                  }
                   title={<a>{item.title}</a>}
                   description={
                     <Space size="large">
@@ -175,7 +194,10 @@ function Index() {
                       </span>
                       <span>
                         {item?.tag?.split(',')?.map((i) => (
-                          <Tag key={i} color={color}>
+                          <Tag
+                            key={i}
+                            color={color}
+                          >
                             {i}
                           </Tag>
                         ))}
@@ -215,8 +237,15 @@ function Index() {
             renderItem={(item) => (
               <List.Item
                 actions={[
-                  <Tooltip title="点赞👍" key="likeComment">
-                    <IconText icon={<LikeOutlined />} text={0} onClick={() => {}} />
+                  <Tooltip
+                    title="点赞👍"
+                    key="likeComment"
+                  >
+                    <IconText
+                      icon={<LikeOutlined />}
+                      text={0}
+                      onClick={() => {}}
+                    />
                   </Tooltip>,
                   <Popconfirm
                     title="删除当前评论"
@@ -237,10 +266,13 @@ function Index() {
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.reply_user?.headImgUrl} />}
+                  avatar={<Avatar src={baseImgUrl + item.reply_user?.headImgUrl} />}
                   title={<a>{item.reply_user?.nickname}</a>}
                   description={
-                    <Space direction="vertical" style={{ width: '100%' }}>
+                    <Space
+                      direction="vertical"
+                      style={{ width: '100%' }}
+                    >
                       <span style={{ fontSize: 12 }}>{dayjs(item.createdAt).fromNow()}</span>
                       <span>{item?.content}</span>
                     </Space>

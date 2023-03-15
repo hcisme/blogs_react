@@ -1,6 +1,7 @@
 import React from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import { baseImgUrl } from '@/utils';
 
 //定义图片转base64方法
 function customRequest({ option, onChange }) {
@@ -54,7 +55,7 @@ const Index = (props) => {
           maxCount={1}
           accept=".png,.jpg,.jpeg,.gif"
           listType="picture-card"
-          fileList={value}
+          fileList={value?.[0] ? [{ ...value[0], url: baseImgUrl + value[0].url }] : []}
           customRequest={(option) => {
             customRequest({ option, onChange });
           }}

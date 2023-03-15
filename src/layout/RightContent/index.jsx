@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Dropdown, message, Space, Tooltip } from 'antd';
 import { LogoutOutlined, GithubOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getLocalStorage } from '@/utils';
+import { baseImgUrl, getLocalStorage } from '@/utils';
 
 function Index() {
   const { headImgUrl, nickname } = getLocalStorage('userInfo') || {};
@@ -15,7 +15,10 @@ function Index() {
   ];
 
   return (
-    <Space align="center" size="middle">
+    <Space
+      align="center"
+      size="middle"
+    >
       <Tooltip title={`V${1}.0`}>
         <ShareAltOutlined style={{ fontSize: 20 }} />
       </Tooltip>
@@ -45,7 +48,7 @@ function Index() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
           <Avatar
-            src={headImgUrl}
+            src={baseImgUrl + headImgUrl}
             style={
               !headImgUrl && {
                 backgroundColor: '#fde3cf',

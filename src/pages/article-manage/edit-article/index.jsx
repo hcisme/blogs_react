@@ -22,35 +22,36 @@ const Index = () => {
   );
 
   const submit = async ({ formRef }) => {
-    try {
-      const values = await formRef.current.validateFields();
-      let coverImg = '';
-      if (values.coverImg?.[0]?.url) {
-        coverImg = values.coverImg[0].url;
-      } else {
-        const { imgUrl } = await uploadImg({
-          file: values.coverImg[0].file
-        });
-        coverImg = imgUrl;
-      }
-
-      const response = await saveArticlesRunAsync({ ...values, coverImg });
-      messagePro({
-        response,
-        onSuccess: () => {
-          navigate('/article-manage');
-        }
+    const values = await formRef.current.validateFields();
+    const { coverImg: [{ url, file } = {}] = [] } = values;
+    let coverImg = '';
+    if (url) {
+      coverImg = url;
+    } else if (file) {
+      const { imgUrl } = await uploadImg({
+        file: values.coverImg[0].file
       });
-    } catch (error) {
-      console.log(error);
+      coverImg = imgUrl;
     }
+
+    const response = await saveArticlesRunAsync({ ...values, coverImg });
+    messagePro({
+      response,
+      onSuccess: () => {
+        navigate('/article-manage');
+      }
+    });
   };
 
   return (
     <Spin spinning={loading}>
       <Card>
         {articleInfo?.id && (
-          <EditArticle loading={saveLoading} onOk={submit} initialValues={articleInfo} />
+          <EditArticle
+            loading={saveLoading}
+            onOk={submit}
+            initialValues={articleInfo}
+          />
         )}
       </Card>
     </Spin>
