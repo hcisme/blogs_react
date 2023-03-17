@@ -12,9 +12,15 @@ import taskList from 'markdown-it-task-lists';
 // #end
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import typescript from 'highlight.js/lib/languages/typescript';
+import nginx from 'highlight.js/lib/languages/nginx';
 
 function useMdParse() {
   hljs.registerLanguage('javascript', javascript);
+  hljs.registerLanguage('json', json);
+  hljs.registerLanguage('typescript', typescript);
+  hljs.registerLanguage('nginx', nginx);
   hljs.configure({
     ignoreUnescapedHTML: true
   });
