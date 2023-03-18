@@ -4,6 +4,7 @@ module.exports = {
   webpack: {
     alias: {
       '@': path.join(__dirname, 'src/')
-    }
+    },
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   }
 };

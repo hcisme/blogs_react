@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import { useRequest } from 'ahooks';
 import { EditArticle } from '@/components';
 import { useMessage } from '@/hooks';
@@ -19,9 +19,13 @@ const Index = () => {
       const values = await formRef.current.validateFields();
       let coverImg;
       if (values?.coverImg?.length) {
-        const { imgUrl } = await uploadImg({
+        const { imgUrl, success, uploadMsg } = await uploadImg({
           file: values.coverImg[0].file
         });
+        if (!success) {
+          message.error(uploadMsg);
+          return;
+        }
         coverImg = imgUrl;
       }
       const response = await publicArticlesRunAsync({ ...values, coverImg });
@@ -38,7 +42,10 @@ const Index = () => {
 
   return (
     <Card>
-      <EditArticle loading={loading} onOk={submit} />
+      <EditArticle
+        loading={loading}
+        onOk={submit}
+      />
     </Card>
   );
 };

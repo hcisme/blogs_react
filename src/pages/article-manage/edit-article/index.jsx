@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Spin } from 'antd';
+import { Card, message, Spin } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRequest } from 'ahooks';
 import { EditArticle } from '@/components';
@@ -28,9 +28,13 @@ const Index = () => {
     if (url) {
       coverImg = url;
     } else if (file) {
-      const { imgUrl } = await uploadImg({
+      const { imgUrl, success, uploadMsg } = await uploadImg({
         file: values.coverImg[0].file
       });
+      if (!success) {
+        message.error(uploadMsg);
+        return;
+      }
       coverImg = imgUrl;
     }
 
