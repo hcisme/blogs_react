@@ -3,6 +3,7 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { uploadImg } from '@/services/upload';
 import { useMdParse, useMessage } from '@/hooks';
+import { baseImgUrl } from '@/utils';
 
 const Index = (props) => {
   const { id, value, onChange } = props;
@@ -17,7 +18,7 @@ const Index = (props) => {
       response: { success },
       successText: '上传成功',
       onSuccess: () => {
-        callback(imgUrl);
+        callback(baseImgUrl + imgUrl);
       }
     });
   };
