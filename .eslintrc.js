@@ -16,6 +16,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
+  // 0，1，2分别表示off, warning, error三个错误级别.
   rules: {
     // indent: ['error', 'space'],
     'linebreak-style': ['error', 'windows'],

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, message } from 'antd';
-import { useRequest } from 'ahooks';
 import { EditArticle } from '@/components';
 import { useMessage } from '@/hooks';
 import { publicArticles } from '@/services/articles';
@@ -8,27 +7,30 @@ import { uploadImg } from '@/services/upload';
 
 const Index = () => {
   const messagePro = useMessage();
-
-  const { runAsync: publicArticlesRunAsync, loading } = useRequest(
-    (values) => publicArticles({ ...values, tag: values.tag.join(',') }),
-    { manual: true }
-  );
+  const [loading, setLoading] = useState();
 
   const submit = async ({ formRef }) => {
+    setLoading(true);
+    let coverImg;
     try {
       const values = await formRef.current.validateFields();
-      let coverImg;
       if (values?.coverImg?.length) {
         const { imgUrl, success, uploadMsg } = await uploadImg({
           file: values.coverImg[0].file
         });
         if (!success) {
           message.error(uploadMsg);
+          setLoading(false);
           return;
         }
         coverImg = imgUrl;
       }
-      const response = await publicArticlesRunAsync({ ...values, coverImg });
+      const response = await publicArticles({
+        ...values,
+        tag: values.tag.join(','),
+        coverImg
+      });
+      setLoading(false);
       messagePro({
         response,
         onSuccess: () => {
@@ -36,16 +38,13 @@ const Index = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      setLoading(false);
     }
   };
 
   return (
     <Card>
-      <EditArticle
-        loading={loading}
-        onOk={submit}
-      />
+      <EditArticle loading={loading} onOk={submit} />
     </Card>
   );
 };

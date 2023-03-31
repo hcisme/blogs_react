@@ -68,7 +68,10 @@ function Index(props) {
               {
                 required: true,
                 validator: (_, value) => {
-                  if (value.length > 5) {
+                  if (!value?.length) {
+                    return Promise.reject(new Error('请选择标签'));
+                  }
+                  if (value?.length > 5) {
                     return Promise.reject(new Error('标签最多选择5个'));
                   }
                   return Promise.resolve();
