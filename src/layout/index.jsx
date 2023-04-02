@@ -12,8 +12,8 @@ const Index = () => {
   const navigate = useNavigate();
   const newRoutingTable =
     route
-      ?.find((item) => item.menu)
-      ?.children?.filter((i) => i.icon)
+      ?.filter((item) => item.children)
+      ?.filter((i) => i.icon)
       ?.map(({ path, name, icon }) => ({ path, name, icon })) || [];
 
   return (
@@ -24,7 +24,12 @@ const Index = () => {
     >
       <ProLayout
         title="博客系统"
-        logo={<img src={logo} alt="" />}
+        logo={
+          <img
+            src={logo}
+            alt=""
+          />
+        }
         fixSiderbar
         fixedHeader
         layout="mix"

@@ -9,6 +9,7 @@ module.exports = {
       version: 'detect'
     }
   },
+  parser: '@typescript-eslint/parser',
   extends: ['eslint:recommended', 'plugin:react/recommended'],
   plugins: ['react'],
   overrides: [],
@@ -23,7 +24,6 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'no-var': 2, //要求使用 let 或 const 而不是 var
-    'react/prop-types': 0, //防止在react组件定义中缺少props验证
-    'no-unused-vars': 'error'
+    'react/prop-types': 0 //防止在react组件定义中缺少props验证
   }
 };

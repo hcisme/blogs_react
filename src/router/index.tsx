@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Result } from 'antd';
 import { UserSwitchOutlined, FileProtectOutlined, FormOutlined } from '@ant-design/icons';
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 
 const Layout = lazy(() => import('@/layout'));
@@ -13,7 +13,7 @@ const EditArticle = lazy(() => import('@/pages/article-manage/edit-article'));
 const PreviewArticle = lazy(() => import('@/pages/article-manage/preview-article'));
 const Redirecting = lazy(() => import('@/pages/redirecting'));
 
-const router = [
+const router: RouteObject[] = [
   {
     path: '/',
     element: <Navigate to="/redirecting" />
@@ -28,7 +28,6 @@ const router = [
   },
   {
     element: <Layout />,
-    menu: true,
     children: [
       {
         index: true,
@@ -64,7 +63,12 @@ const router = [
   },
   {
     path: '*',
-    element: <Result status="404" subTitle="找不到页面" />
+    element: (
+      <Result
+        status="404"
+        subTitle="找不到页面"
+      />
+    )
   }
 ];
 
