@@ -13,7 +13,7 @@ import './index.css';
 dayjs.locale('zh-cn');
 dayjs.extend(relativeTime);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 root.render(
   <BrowserRouter>
     <Suspense fallback={<PageLoading />}>
