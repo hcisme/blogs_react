@@ -55,7 +55,10 @@ function Index() {
           }
         ]}
       >
-        <ClipAvatar shape="round" text="上传头像" />
+        <ClipAvatar
+          imgCropProps={{ shape: 'round' }}
+          text="上传头像"
+        />
       </ProForm.Item>
     </>
   );

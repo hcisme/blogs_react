@@ -1,44 +1,25 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
-import { message } from 'antd';
-import { getLocalStorage, setSessionStorage } from '../localStorage';
+import { AxiosHeaders, AxiosResponse, Method, ResponseType } from 'axios';
+import axios from './interceptors';
 
-// 请求拦截器
-axios.interceptors.request.use(
-  (config) => {
-    const token = getLocalStorage('token');
-    return {
-      ...config,
-      headers: {
-        ...config.headers,
-        Authorization: token ? `Bearer ${token}` : undefined
-      }
-    } as InternalAxiosRequestConfig;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+interface AxiosRequestConfig {
+  method: Method;
 
-// 响应拦截器
-axios.interceptors.response.use(
-  (config) => {
-    return { ...config, ...config.data, success: true };
-  },
-  (error) => {
-    if (error.response?.status === 401) {
-      message.error(error.response.data?.message);
-      setSessionStorage('loginstatusMessage', error.response.data?.message);
-      window.location.replace('/g');
-      return;
-    }
-    return {
-      ...error,
-      ...error.response,
-      success: false,
-      ...error.response.data,
-      message: error.response.data?.message || '未知错误，请联系管理员。'
-    };
-  }
-);
+  /**
+   * 除get请求外 都用data传数据
+   */
+  data: any;
+  params: any;
+  headers: AxiosHeaders;
+  responseType: ResponseType;
+}
 
-export default axios;
+export default async function (
+  url: string,
+  { method = 'GET', ...rest }: Partial<AxiosRequestConfig> = {}
+): Promise<AxiosResponse & { code: number; message: string | any; success: boolean }> {
+  return axios({
+    url,
+    method,
+    ...rest
+  });
+}

@@ -1,16 +1,23 @@
 import React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
+import { UploadFunc } from 'react-markdown-editor-lite/cjs/share/var';
 import 'react-markdown-editor-lite/lib/index.css';
 import { uploadImg } from '@/services/upload';
 import { useMdParse, useMessage } from '@/hooks';
 import { baseImgUrl } from '@/utils';
 
-const Index = (props) => {
+type Props = {
+  id: string;
+  value: string;
+  onChange: Function;
+};
+
+const Index = (props: Props) => {
   const { id, value, onChange } = props;
   const messagePro = useMessage();
   const mdParser = useMdParse();
 
-  const handleImageUpload = async (file, callback) => {
+  const handleImageUpload: UploadFunc = async (file, callback) => {
     const { imgUrl, success } = await uploadImg({
       file
     });

@@ -46,8 +46,8 @@ function Index(props) {
             name="coverImg"
           >
             <ClipAvatar
+              imgCropProps={{ aspect: 16 / 9 }}
               text="选择文章封面"
-              aspect={16 / 9}
             />
           </ProForm.Item>
         </Col>

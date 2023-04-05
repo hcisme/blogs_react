@@ -4,14 +4,18 @@ import hljs from 'highlight.js/lib/core';
 import { useMdParse } from '@/hooks';
 import './index.css';
 
-function Index(props) {
+type Props = {
+  html: string;
+};
+
+function Index(props: Props) {
   const { html } = props;
-  const ref = useRef({});
+  const ref = useRef<HTMLDivElement>(null);
   const mdParser = useMdParse();
 
   useEffect(() => {
     ref?.current?.querySelectorAll('pre, code').forEach((element) => {
-      hljs.highlightElement(element);
+      hljs.highlightElement(element as HTMLElement);
     });
   }, []);
 

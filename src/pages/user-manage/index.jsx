@@ -98,7 +98,7 @@ const Index = () => {
       }}
       request={async (params) =>
         getAllUserList({
-          params
+          config: params
         })
       }
     />

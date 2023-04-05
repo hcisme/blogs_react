@@ -22,7 +22,10 @@ const Index = () => {
       width: '25%',
       ellipsis: { showTitle: false },
       renderText: (text, record) => (
-        <Tooltip title={text} placement="topLeft">
+        <Tooltip
+          title={text}
+          placement="topLeft"
+        >
           <a
             onClick={() => {
               navigate(`/preview-article/${record.id}`);
@@ -44,7 +47,10 @@ const Index = () => {
             title={
               tags.length > 3
                 ? text?.split(',').map((item, index) => (
-                    <Tag key={index} color="cyan">
+                    <Tag
+                      key={index}
+                      color="cyan"
+                    >
                       {item}
                     </Tag>
                   ))
@@ -136,7 +142,7 @@ const Index = () => {
         request={async (params) =>
           getTargetUserArticles({
             uid: _id,
-            params
+            config: params
           })
         }
         search={{
