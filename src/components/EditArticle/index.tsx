@@ -1,23 +1,40 @@
 import React, { useRef } from 'react';
 import { Avatar, Button, Col, Row, Space } from 'antd';
-import { FooterToolbar, ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import { baseImgUrl, getLocalStorage, languageTagList } from '@/utils';
+import {
+  FooterToolbar,
+  ProForm,
+  ProFormInstance,
+  ProFormSelect,
+  ProFormText
+} from '@ant-design/pro-components';
+import { UserInfo, baseImgUrl, getLocalStorage, languageTagList } from '@/utils';
 import { ClipAvatar, Editor } from '@/components';
 
-function Index(props) {
-  const { loading, initialValues = {}, onOk } = props;
-  const formRef = useRef({});
-  const { headImgUrl, nickname, username } = getLocalStorage('userInfo') || {};
+type Props = {
+  loading: boolean;
+  initialValues?: { tag: string; coverImg?: string; title: string; content: string };
+  // onOk: ({ formRef }: { formRef: React.MutableRefObject<ProFormInstance | undefined> }) => void;
+  onOk: Function;
+};
+
+function Index(props: Props) {
+  const { loading, initialValues, onOk } = props;
+  const formRef = useRef<ProFormInstance>();
+  const { headImgUrl, nickname, username } = (getLocalStorage('userInfo') as UserInfo) || {};
 
   return (
     <ProForm
       formRef={formRef}
       submitter={false}
-      initialValues={{
-        ...initialValues,
-        tag: initialValues?.tag?.split(','),
-        coverImg: initialValues.coverImg ? [{ url: initialValues.coverImg }] : []
-      }}
+      initialValues={
+        initialValues
+          ? {
+              ...initialValues,
+              tag: initialValues.tag.split(','),
+              coverImg: initialValues.coverImg ? [{ url: initialValues.coverImg }] : []
+            }
+          : {}
+      }
     >
       <Row>
         <Col span={12}>
@@ -96,7 +113,7 @@ function Index(props) {
       <FooterToolbar>
         <Button
           onClick={() => {
-            formRef.current.resetFields();
+            formRef.current?.resetFields();
           }}
         >
           重置

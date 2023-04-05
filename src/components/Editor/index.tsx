@@ -7,9 +7,9 @@ import { useMdParse, useMessage } from '@/hooks';
 import { baseImgUrl } from '@/utils';
 
 type Props = {
-  id: string;
-  value: string;
-  onChange: Function;
+  id?: string;
+  value?: string;
+  onChange?: Function;
 };
 
 const Index = (props: Props) => {
@@ -44,7 +44,7 @@ const Index = (props: Props) => {
         }
       }}
       onChange={({ text }) => {
-        onChange(text);
+        onChange!(text);
       }}
       onImageUpload={handleImageUpload}
     />

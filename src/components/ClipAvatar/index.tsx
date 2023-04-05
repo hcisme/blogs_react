@@ -5,15 +5,15 @@ import ImgCrop, { ImgCropProps } from 'antd-img-crop';
 import { baseImgUrl } from '@/utils';
 
 interface Props {
-  id: string;
+  id?: string;
   value?: UploadFile<any>[];
-  text: string;
-  onChange: Function;
+  text?: string;
+  onChange?: Function;
 
   /**
    * 裁切图片工具的参数
    */
-  imgCropProps?: ImgCropProps;
+  imgCropProps?: Partial<ImgCropProps>;
 }
 
 //定义图片转base64方法
@@ -68,10 +68,10 @@ const Index = (props: Props) => {
           listType="picture-card"
           fileList={value?.[0] ? [{ ...value[0], url: baseImgUrl + value[0].url }] : []}
           customRequest={(option) => {
-            customRequest(option, onChange);
+            customRequest(option, onChange!);
           }}
           // showUploadList
-          onRemove={() => onChange()}
+          onRemove={() => onChange!()}
           onPreview={onPreview}
         >
           {text}
