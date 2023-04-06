@@ -13,8 +13,7 @@ import { ClipAvatar, Editor } from '@/components';
 type Props = {
   loading: boolean;
   initialValues?: { tag: string; coverImg?: string; title: string; content: string };
-  // onOk: ({ formRef }: { formRef: React.MutableRefObject<ProFormInstance | undefined> }) => void;
-  onOk: Function;
+  onOk: ({ formRef }: { formRef: React.MutableRefObject<ProFormInstance | undefined> }) => void;
 };
 
 function Index(props: Props) {
@@ -40,15 +39,8 @@ function Index(props: Props) {
         <Col span={12}>
           <ProForm.Item label="发布者">
             <Space align="end">
-              <Avatar
-                shape="square"
-                size="large"
-                src={baseImgUrl + headImgUrl}
-              />
-              <Space
-                size={0}
-                direction="vertical"
-              >
+              <Avatar shape="square" size="large" src={baseImgUrl + headImgUrl} />
+              <Space size={0} direction="vertical">
                 <div>
                   <span style={{ fontSize: 13 }}>用户名:</span> <a>{username}</a>
                 </div>
@@ -58,14 +50,8 @@ function Index(props: Props) {
           </ProForm.Item>
         </Col>
         <Col span={12}>
-          <ProForm.Item
-            label="封面"
-            name="coverImg"
-          >
-            <ClipAvatar
-              imgCropProps={{ aspect: 16 / 9 }}
-              text="选择文章封面"
-            />
+          <ProForm.Item label="封面" name="coverImg">
+            <ClipAvatar imgCropProps={{ aspect: 16 / 9 }} text="选择文章封面" />
           </ProForm.Item>
         </Col>
         <Col span={24}>
@@ -100,11 +86,7 @@ function Index(props: Props) {
           />
         </Col>
         <Col span={24}>
-          <ProForm.Item
-            label="内容"
-            name="content"
-            rules={[{ required: true }]}
-          >
+          <ProForm.Item label="内容" name="content" rules={[{ required: true }]}>
             <Editor />
           </ProForm.Item>
         </Col>

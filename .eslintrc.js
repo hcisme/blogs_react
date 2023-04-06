@@ -4,22 +4,25 @@ module.exports = {
     es2021: true,
     node: true
   },
-  settings: {
-    react: {
-      version: 'detect'
-    }
-  },
-  parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
-  plugins: ['react'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
   overrides: [],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  // 0，1，2分别表示off, warning, error三个错误级别.
+  plugins: ['react', '@typescript-eslint'],
+
+  /**
+   * 自定义校验规则
+   * 0 => off, 1 => warn, 2 => error
+   */
   rules: {
-    // indent: ['error', 'space'],
+    'no-console': 1,
     'linebreak-style': ['error', 'windows'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
