@@ -22,11 +22,14 @@ module.exports = {
    * 0 => off, 1 => warn, 2 => error
    */
   rules: {
-    'no-console': 1,
+    // 'no-console': 0,
     'linebreak-style': ['error', 'windows'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'no-var': 2, //要求使用 let 或 const 而不是 var
-    'react/prop-types': 0 //防止在react组件定义中缺少props验证
+    'react/prop-types': 0, //防止在react组件定义中缺少props验证
+    '@typescript-eslint/no-empty-function': 0,
+    'no-empty-function': 0,
+    '@typescript-eslint/no-explicit-any': 0
   }
 };

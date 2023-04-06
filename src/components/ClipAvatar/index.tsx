@@ -2,13 +2,23 @@ import React from 'react';
 import type { UploadRequestOption } from 'rc-upload/lib/interface';
 import { Upload, UploadFile } from 'antd';
 import ImgCrop, { ImgCropProps } from 'antd-img-crop';
+import { RcFile } from 'antd/es/upload';
 import { baseImgUrl } from '@/utils';
 
 interface Props {
-  id?: string;
-  value?: UploadFile<any>[];
-  text?: string;
-  onChange?: Function;
+  id: string;
+  value: UploadFile[];
+  text: string;
+  onChange: (
+    info?: [
+      {
+        file: string | Blob | RcFile;
+        status: string;
+        response: string;
+        thumbUrl: string | ArrayBuffer | null | undefined;
+      }
+    ]
+  ) => void;
 
   /**
    * 裁切图片工具的参数
@@ -17,7 +27,7 @@ interface Props {
 }
 
 //定义图片转base64方法
-function customRequest(option: UploadRequestOption, onChange: Function) {
+function customRequest(option: UploadRequestOption, onChange: Props['onChange']) {
   const reader = new FileReader();
   reader.readAsDataURL(option.file as Blob);
   reader.onloadend = function (e: ProgressEvent<FileReader>) {
@@ -47,8 +57,8 @@ const onPreview = async (file: UploadFile & { [key: string]: any }) => {
   imgWindow?.document.write(image.outerHTML);
 };
 
-const Index = (props: Props) => {
-  const { id, value = [], text, imgCropProps, onChange } = props;
+const Index = (props: Partial<Props>) => {
+  const { id, value = [], text, imgCropProps, onChange = () => {} } = props;
 
   return (
     <span id={id}>
@@ -68,10 +78,10 @@ const Index = (props: Props) => {
           listType="picture-card"
           fileList={value?.[0] ? [{ ...value[0], url: baseImgUrl + value[0].url }] : []}
           customRequest={(option) => {
-            customRequest(option, onChange!);
+            customRequest(option, onChange);
           }}
           // showUploadList
-          onRemove={() => onChange!()}
+          onRemove={() => onChange()}
           onPreview={onPreview}
         >
           {text}

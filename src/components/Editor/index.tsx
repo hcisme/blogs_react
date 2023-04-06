@@ -9,11 +9,11 @@ import { baseImgUrl } from '@/utils';
 type Props = {
   id?: string;
   value?: string;
-  onChange?: Function;
+  onChange?: (text: string) => void;
 };
 
 const Index = (props: Props) => {
-  const { id, value, onChange } = props;
+  const { id, value, onChange = () => {} } = props;
   const messagePro = useMessage();
   const mdParser = useMdParse();
 
@@ -44,7 +44,7 @@ const Index = (props: Props) => {
         }
       }}
       onChange={({ text }) => {
-        onChange!(text);
+        onChange(text);
       }}
       onImageUpload={handleImageUpload}
     />
