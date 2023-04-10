@@ -1,13 +1,13 @@
-export type UserInfo = {
+export interface UserInfo {
   createdAt: string;
   updateAt: string;
   headImgUrl: string;
   username: string;
   nickname: string;
-  password: string;
   role: number;
-  id: string;
-};
+  id?: string;
+  _id: string;
+}
 
 export const baseImgUrl =
   window.origin !== 'http://127.0.0.1:3001' ? 'http://127.0.0.1:3002' : 'http://81.68.248.232:3002';

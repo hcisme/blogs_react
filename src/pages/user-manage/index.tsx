@@ -2,19 +2,19 @@ import React, { useRef } from 'react';
 import { Popconfirm, Space } from 'antd';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { useMessage } from '@/hooks';
 import { deleteTargetUser, getAllUserList } from '@/services/user';
-import { getLocalStorage } from '@/utils';
+import { UserInfo, getLocalStorage } from '@/utils';
 import { eSign } from '@/components';
 import DrawerForm from './Edit';
 
 const Index = () => {
-  const actionRef = useRef({});
+  const actionRef = useRef<ActionType>();
   const { _id } = getLocalStorage('userInfo') || {};
   const messagePro = useMessage();
 
-  const columns = [
+  const columns: ProColumns<UserInfo>[] = [
     {
       title: '用户名',
       dataIndex: 'username'
@@ -27,7 +27,7 @@ const Index = () => {
       title: '创建时间',
       dataIndex: 'createdAt',
       hideInSearch: true,
-      render: (text) => dayjs(text).format('YYYY-MM-DD')
+      render: (text) => dayjs(text as string).format('YYYY-MM-DD')
     },
     {
       title: '角色',
@@ -70,7 +70,7 @@ const Index = () => {
                     messagePro({
                       response,
                       onSuccess: () => {
-                        actionRef.current.reload();
+                        actionRef.current?.reload();
                       }
                     });
                     return response.success;

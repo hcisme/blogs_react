@@ -1,20 +1,15 @@
 import React from 'react';
 import { useNavigate, Link, Outlet, Navigate } from 'react-router-dom';
 import { PageContainer, ProLayout, RouteContext } from '@ant-design/pro-components';
-import route from '@/router';
 import logo from '@/assets/images/Octocat.png';
 import { getLocalStorage } from '@/utils';
 import { ESign } from '@/components';
+import newRouterList from './menu.config';
 import RightContent from './RightContent';
 import MenuFooter from './MenuFooter';
 
 const Index = () => {
   const navigate = useNavigate();
-  const newRoutingTable =
-    route
-      ?.find((item) => item.children)
-      .children?.filter((i) => i.icon)
-      ?.map(({ path, name, icon }) => ({ path, name, icon })) || [];
 
   return (
     <div
@@ -40,27 +35,26 @@ const Index = () => {
             width: '600px'
           }
         ]}
-        menuFooterRender={(props) => !props.collapsed && <MenuFooter />}
-        menuItemRender={(item, defaultDom) => {
-          return <Link to={item.path}>{defaultDom}</Link>;
+        menuFooterRender={(props) => !props?.collapsed && <MenuFooter />}
+        menuItemRender={({ path = '' }, defaultDom) => {
+          return <Link to={path}>{defaultDom}</Link>;
         }}
-        route={{ routes: newRoutingTable }}
+        route={{ routes: newRouterList }}
       >
         <RouteContext.Consumer>
           {() => {
             return (
-              <PageContainer
-                id="preview-article-scrollableDiv"
-                style={{
-                  overflow: 'auto'
-                }}
-                pageHeaderRender={false}
-              >
+              <PageContainer pageHeaderRender={false}>
                 {getLocalStorage('token') ? (
-                  <>
+                  <div
+                    id="preview-article-scrollableDiv"
+                    style={{
+                      overflow: 'auto'
+                    }}
+                  >
                     <Outlet />
                     <ESign />
-                  </>
+                  </div>
                 ) : (
                   <Navigate to="/g" />
                 )}

@@ -1,19 +1,33 @@
 import React, { useRef } from 'react';
 import { message } from 'antd';
-import { DrawerForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import { DrawerForm, ProFormInstance, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { updateUserInfo } from '@/services/user';
 import { useMessage } from '@/hooks';
-import { getLocalStorage, setLocalStorage } from '@/utils';
+import { UserInfo, getLocalStorage, setLocalStorage } from '@/utils';
 
-const Index = (props) => {
-  const { children, title, disabled = false, record = {}, onOk } = props;
-  const formRef = useRef({});
-  const messagePro = useMessage({});
+interface Props {
+  children: React.ReactElement;
+  title: React.ReactNode;
+  disabled?: boolean;
+  record: UserInfo;
+  onOk: () => void;
+}
+
+type EditInfo = Pick<UserInfo, 'username' | 'nickname' | 'role'>;
+
+const Index = (props: Props) => {
+  const { children, title, disabled = false, record, onOk } = props;
+  const formRef = useRef<ProFormInstance>();
+  const messagePro = useMessage();
   const userInfo = getLocalStorage('userInfo');
 
-  const save = async (values) => {
-    const response = await updateUserInfo({ ...values, id: record._id });
-    const { data = {}, isLogin } = response;
+  const save = async (values: EditInfo) => {
+    const response = await updateUserInfo({
+      ...values,
+      role: record.role.toString(),
+      id: record._id
+    });
+    const { data = {}, isLogin }: any = response;
     messagePro({
       response,
       onSuccess: () => {
@@ -30,7 +44,7 @@ const Index = (props) => {
   };
 
   return (
-    <DrawerForm
+    <DrawerForm<EditInfo>
       title={title}
       width={400}
       trigger={children}

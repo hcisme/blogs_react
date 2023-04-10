@@ -15,10 +15,7 @@ function Index() {
   ];
 
   return (
-    <Space
-      align="center"
-      size="middle"
-    >
+    <Space align="center" size="middle">
       <Tooltip title={`V${1}.0`}>
         <ShareAltOutlined style={{ fontSize: 20 }} />
       </Tooltip>
@@ -50,10 +47,12 @@ function Index() {
           <Avatar
             src={baseImgUrl + headImgUrl}
             style={
-              !headImgUrl && {
-                backgroundColor: '#fde3cf',
-                color: '#f56a00'
-              }
+              !headImgUrl
+                ? {
+                    backgroundColor: '#fde3cf',
+                    color: '#f56a00'
+                  }
+                : {}
             }
           >
             u

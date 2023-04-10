@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import { Result } from 'antd';
-import { UserSwitchOutlined, FileProtectOutlined, FormOutlined } from '@ant-design/icons';
 import { Navigate, RouteObject } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 
@@ -32,21 +31,15 @@ const router: RouteObject[] = [
       {
         index: true,
         path: '/user-manage',
-        element: <UserManage />,
-        name: '用户管理',
-        icon: <UserSwitchOutlined />
+        element: <UserManage />
       },
       {
         path: '/article-manage',
-        element: <ArticleMange />,
-        name: '文章管理',
-        icon: <FileProtectOutlined />
+        element: <ArticleMange />
       },
       {
         path: '/public-blog',
-        element: <PublicBlog />,
-        name: '发布博客',
-        icon: <FormOutlined />
+        element: <PublicBlog />
       },
       {
         path: '/edit-article/:id',
@@ -63,12 +56,7 @@ const router: RouteObject[] = [
   },
   {
     path: '*',
-    element: (
-      <Result
-        status="404"
-        subTitle="找不到页面"
-      />
-    )
+    element: <Result status="404" subTitle="找不到页面" />
   }
 ];
 
