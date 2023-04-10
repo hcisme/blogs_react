@@ -30,6 +30,7 @@ module.exports = {
     'react/prop-types': 0, //防止在react组件定义中缺少props验证
     '@typescript-eslint/no-empty-function': 0,
     'no-empty-function': 0,
-    '@typescript-eslint/no-explicit-any': 0
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-var-requires': 0
   }
 };
