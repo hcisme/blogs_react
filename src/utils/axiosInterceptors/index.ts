@@ -16,7 +16,9 @@ interface AxiosRequestConfig {
 export default async function (
   url: string,
   { method = 'GET', ...rest }: Partial<AxiosRequestConfig> = {}
-): Promise<AxiosResponse & { code: number; message: string | any; success: boolean }> {
+): Promise<
+  AxiosResponse & { code: number; message: string | any; success: boolean; [K: string]: any }
+> {
   return axios({
     url,
     method,

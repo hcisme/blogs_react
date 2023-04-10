@@ -9,8 +9,8 @@ type ResponseConfig = {
   successText?: string;
   errorText?: string;
   messageConfig?: Partial<MessageArgsProps>;
-  onSuccess?: () => void | Promise<() => void>;
-  onError?: () => void | Promise<() => void>;
+  onSuccess?: () => void;
+  onError?: () => void;
 };
 
 const getText = (

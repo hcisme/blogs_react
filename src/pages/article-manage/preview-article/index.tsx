@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, ReactNode, useState } from 'react';
 import {
   Avatar,
   Card,
@@ -23,9 +23,38 @@ import { getArticleInfoById } from '@/services/articles';
 import { deleteCommentByCid, getCommentList } from '@/services/comment';
 import { getStarList, isStarFn } from '@/services/star';
 import { Article } from '@/components';
-import { tagsColorList, getLocalStorage, baseImgUrl } from '@/utils';
+import { tagsColorList, getLocalStorage, baseImgUrl, UserInfo } from '@/utils';
+import { ArticleInfo } from '../edit-article';
 
-const IconText = ({ icon, text, style = {}, ...rest }) => (
+interface StarListProps {
+  article: ArticleInfo;
+  createdAt: string;
+  isStar: number;
+  star_user: UserInfo;
+  updateAt: string;
+  _id: string;
+}
+
+interface CommentListProps {
+  article: string;
+  content: string;
+  createdAt: string;
+  updateAt: string;
+  reply_user: UserInfo;
+  _id: string;
+}
+
+const IconText = ({
+  icon,
+  text,
+  style = {},
+  ...rest
+}: {
+  icon?: ReactNode;
+  text?: ReactNode;
+  style?: CSSProperties;
+  [K: string]: any;
+}) => (
   <Space
     style={style}
     {...rest}
@@ -38,16 +67,16 @@ const IconText = ({ icon, text, style = {}, ...rest }) => (
 let currentPage = 1;
 
 function Index() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>() as { id: string };
   const messagePro = useMessage();
-  const [commentList, setCommentList] = useState([]);
+  const [commentList, setCommentList] = useState<CommentListProps[]>([]);
   const { _id } = getLocalStorage('userInfo') || {};
   const color = tagsColorList[Math.floor(Math.random() * tagsColorList.length)];
   // 获取文章信息
-  const { loading, data = {} } = useRequest(async () => {
+  const { loading, data }: { loading: boolean; data?: ArticleInfo[] } = useRequest(async () => {
     const { data = {}, success, message: info } = await getArticleInfoById({ id });
     if (success) {
-      return data;
+      return [data];
     }
     message.error(info);
   });
@@ -55,7 +84,7 @@ function Index() {
   // 评论列表接口;
   const {
     loading: commentLoading,
-    data: { hasMore, total: commentTotal = 0 } = {},
+    data: { hasMore = false, total: commentTotal = 0 } = {},
     runAsync: getCommentListRunAsync
   } = useRequest(async (current = 1, pageSize = 20) => {
     const {
@@ -64,6 +93,12 @@ function Index() {
       total,
       success,
       message
+    }: {
+      data: CommentListProps[];
+      hasMore?: boolean;
+      total?: number;
+      success: boolean;
+      message: string | any;
     } = await getCommentList({
       aid: id,
       current,
@@ -74,12 +109,17 @@ function Index() {
       return { hasMore, total };
     }
     message.error(message);
+    return { hasMore: false, total: 0 };
   });
 
   // 点赞列表接口
-  const { data: { response: starList = [] } = {}, runAsync: getStarListRunAsync } = useRequest(() =>
-    getStarList({ id })
-  );
+  const {
+    data: starList = [],
+    runAsync: getStarListRunAsync
+  }: { data?: StarListProps[]; runAsync: any } = useRequest(async () => {
+    const { response } = await getStarList({ id });
+    return response;
+  });
 
   const { run: starRun } = useDebounceFn(
     async ({ isStared, starId }) => {
@@ -97,7 +137,7 @@ function Index() {
     { wait: 500 }
   );
 
-  const deleteComment = async (cid) => {
+  const deleteComment = async (cid: string) => {
     const response = await deleteCommentByCid({ cid });
     const { message, success } = response;
     messagePro({
@@ -127,16 +167,16 @@ function Index() {
         style={{ width: '100%' }}
         size="large"
       >
-        <List
+        <List<ArticleInfo>
           loading={loading}
           itemLayout="vertical"
           size="large"
-          dataSource={[data]}
+          dataSource={data}
           footer={
             <span>
               最后更新时间：
-              {`${dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
-                data.updatedAt
+              {`${dayjs(data?.[0].updatedAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                data?.[0].updatedAt
               ).fromNow()})`}
             </span>
           }
@@ -188,8 +228,8 @@ function Index() {
                       <span style={{ fontSize: 13 }}>作者：{item?.author?.nickname}</span>
                       <span>
                         创建时间：
-                        {`${dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
-                          data.createdAt
+                        {`${dayjs(data?.[0].createdAt).format('YYYY-MM-DD HH:mm:ss')} (${dayjs(
+                          data?.[0].createdAt
                         ).fromNow()})`}
                       </span>
                       <span>
@@ -229,7 +269,7 @@ function Index() {
           endMessage={<Divider plain>没有更多评论了 🤐</Divider>}
           scrollableTarget="preview-article-scrollableDiv"
         >
-          <List
+          <List<CommentListProps>
             loading={commentLoading}
             itemLayout="horizontal"
             dataSource={commentList}

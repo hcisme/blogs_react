@@ -1,21 +1,22 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Popconfirm, Space, Tag, Tooltip } from 'antd';
-import { ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import dayjs from 'dayjs';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { deleteTargetArticle, getTargetUserArticles } from '@/services/articles';
 import { getLocalStorage } from '@/utils';
 import { eSign } from '@/components';
 import { useMessage } from '@/hooks';
+import { ArticleInfo } from './edit-article';
 
 const Index = () => {
-  const actionRef = useRef({});
+  const actionRef = useRef<ActionType>();
   const navigate = useNavigate();
   const messagePro = useMessage();
   const { _id } = getLocalStorage('userInfo') || {};
 
-  const columns = [
+  const columns: ProColumns<ArticleInfo>[] = [
     {
       title: '标题',
       dataIndex: 'title',
@@ -41,12 +42,14 @@ const Index = () => {
       dataIndex: 'tag',
       width: '20%',
       render: (text) => {
-        const tags = text?.split(',').map((item, index) => <Tag key={index}>{item}</Tag>);
+        const tags = (text as string)
+          ?.split(',')
+          .map((item, index) => <Tag key={index}>{item}</Tag>);
         return (
           <Tooltip
             title={
               tags.length > 3
-                ? text?.split(',').map((item, index) => (
+                ? (text as string)?.split(',').map((item, index) => (
                     <Tag
                       key={index}
                       color="cyan"
@@ -67,21 +70,21 @@ const Index = () => {
       dataIndex: 'createdAt',
       hideInSearch: true,
       width: '18%',
-      render: (text) => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+      render: (text) => dayjs(text as string).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '修改时间',
       dataIndex: 'updatedAt',
       hideInSearch: true,
       width: '18%',
-      render: (text) => text && dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+      render: (text) => text && dayjs(text as string).format('YYYY-MM-DD HH:mm:ss')
     },
     {
       title: '评论数量',
       dataIndex: 'commentTotal',
       hideInSearch: true,
       width: 80,
-      render: (text) => text.length
+      render: (text) => (text as string).length
     },
     {
       title: '浏览量',

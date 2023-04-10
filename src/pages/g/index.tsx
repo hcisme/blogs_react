@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { LoginFormPage } from '@ant-design/pro-components';
+import { LoginFormPage, ProFormInstance } from '@ant-design/pro-components';
 import { Alert, Divider, message, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Login from './login';
@@ -15,16 +15,24 @@ import {
 } from '@/utils';
 import logo from '@/assets/images/Octocat.png';
 
+type RegistInfo = {
+  username: string;
+  password: string;
+  nickname: string;
+  headImgUrl: [{ file: File }];
+};
+
+type LoginInfo = Pick<RegistInfo, 'username' | 'password'>;
+
 const Index = () => {
   const [loginType, setLoginType] = useState('login');
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
-  const formRef = useRef({});
+  const formRef = useRef<ProFormInstance>();
   const loginstatusMessage = getSessionStorage('loginstatusMessage');
 
-  const login = async (values) => {
+  const login = async ({ username, password }: LoginInfo) => {
     setErrorText('');
-    const { login: { username, password } = {} } = values;
     const {
       code,
       token,
@@ -50,20 +58,19 @@ const Index = () => {
     return false;
   };
 
-  const register = async (values) => {
+  const register = async ({ password, headImgUrl, ...rest }: RegistInfo) => {
     setErrorText('');
     const { imgUrl, code, uploadMsg } = await uploadImg({
-      file: values.regist.headImgUrl[0].file
+      file: headImgUrl[0].file
     });
     if (code === 200) {
-      const { regist: { password } = {} } = values;
       const { data: registerInfo } = await userRegister({
-        ...values.regist,
+        ...rest,
         headImgUrl: imgUrl,
         password: encrypt(password)
       });
       if (registerInfo.code === 200) {
-        formRef.current.resetFields();
+        formRef.current?.resetFields();
         message.success(registerInfo.message);
         setLoginType('login');
         return true;
@@ -86,7 +93,7 @@ const Index = () => {
   }, []);
 
   return (
-    <LoginFormPage
+    <LoginFormPage<RegistInfo>
       backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
       logo={logo}
       title="博客后台管理"
@@ -94,19 +101,35 @@ const Index = () => {
       actions={
         <div style={{ textAlign: 'center' }}>
           <Divider />
-          <a href="https://beian.miit.gov.cn/" target="_black" style={{ fontSize: 12 }}>
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_black"
+            style={{ fontSize: 12 }}
+          >
             辽ICP备 2021010497号-2
           </a>
         </div>
       }
-      message={errorText && <Alert type="warning" showIcon message={errorText} />}
+      message={
+        errorText && (
+          <Alert
+            type="warning"
+            showIcon
+            message={errorText}
+          />
+        )
+      }
       layout="horizontal"
       labelAlign="right"
       labelCol={{ span: 5 }}
       wrapperCol={{ flex: 1 }}
       formRef={formRef}
       submitter={{ searchConfig: { submitText: loginType === 'login' ? '登录' : '注册' } }}
-      onFinish={async (values) => (values.regist ? register(values) : login(values))}
+      onFinish={async ({ username, password, nickname, headImgUrl }) =>
+        nickname
+          ? register({ username, password, nickname, headImgUrl })
+          : login({ username, password })
+      }
     >
       <Tabs
         centered
