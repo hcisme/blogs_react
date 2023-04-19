@@ -31,7 +31,7 @@ const Index = () => {
   const formRef = useRef<ProFormInstance>();
   const loginstatusMessage = getSessionStorage('loginstatusMessage');
 
-  const login = async ({ username, password }: LoginInfo) => {
+  const logine = async ({ username, password }: LoginInfo) => {
     setErrorText('');
     const {
       code,
@@ -93,7 +93,7 @@ const Index = () => {
   }, []);
 
   return (
-    <LoginFormPage<RegistInfo>
+    <LoginFormPage<{ login: LoginInfo; regist: RegistInfo }>
       backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
       logo={logo}
       title="博客后台管理"
@@ -125,11 +125,12 @@ const Index = () => {
       wrapperCol={{ flex: 1 }}
       formRef={formRef}
       submitter={{ searchConfig: { submitText: loginType === 'login' ? '登录' : '注册' } }}
-      onFinish={async ({ username, password, nickname, headImgUrl }) =>
-        nickname
-          ? register({ username, password, nickname, headImgUrl })
-          : login({ username, password })
-      }
+      onFinish={async ({ login, regist }) => {
+        if (login) {
+          return logine(login);
+        }
+        return register(regist);
+      }}
     >
       <Tabs
         centered
