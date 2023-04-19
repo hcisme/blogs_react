@@ -24,7 +24,7 @@ const Index = (props: Props) => {
   const save = async (values: EditInfo) => {
     const response = await updateUserInfo({
       ...values,
-      role: record.role.toString(),
+      role: values.role.toString(),
       id: record._id
     });
     const { data = {}, isLogin }: any = response;
