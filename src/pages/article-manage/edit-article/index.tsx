@@ -25,7 +25,7 @@ export interface ArticleInfo {
 
 export interface SubmitConfig {
   tag: string[];
-  coverImg: [{ file?: File; url?: string }];
+  coverImg: { file?: File; url?: string }[];
   title: string;
   content: string;
 }
@@ -52,7 +52,7 @@ const Index = () => {
     try {
       const values: SubmitConfig = await formRef.current?.validateFields();
       const {
-        coverImg: [{ url, file }]
+        coverImg: [{ url = '', file = '' } = {}]
       } = values;
       let coverImg = '';
       if (url) {
@@ -78,6 +78,7 @@ const Index = () => {
         }
       });
     } catch (error) {
+      console.log(error);
       setSaveLoading(false);
     }
   };
