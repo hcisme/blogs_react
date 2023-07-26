@@ -292,7 +292,7 @@ function Index() {
                     key="deleteComment"
                     onConfirm={async () => deleteComment(item._id)}
                   >
-                    {item.reply_user._id === _id && (
+                    {item.reply_user?._id === _id && (
                       <IconText
                         icon={
                           <a style={{ color: 'red' }}>
